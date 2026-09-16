@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portofolio - Fadli</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- CANVAS BACKGROUND ANIMASI JS -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- NAVIGASI (CENTERED + HAMBURGER MENU) -->
+    <nav class="navbar">
+      <!-- Tombol Garis 3 (Hanya tampil di HP) -->
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#pengalaman">Pengalaman</a></li>
+        <li><a href="#skills">Hard Skills</a></li>
+        <li><a href="#project">Project</a></li>
+      </ul>
+    </nav>
+
+    <!-- HOME SECTION (FOTO DI ATAS & TEKS DITENGAH) -->
+    <section id="home" class="hero-section">
+      <div class="hero-content">
+        <div class="hero-image">
+          <img src="assets/images/Fadli-Willyandana.png" alt="Foto Profil Fadli Willyandana" />
+        </div>
+        <div class="hero-text">
+          <h1><span id="typing-text"></span><span class="cursor">|</span></h1>
+          <p>Selamat datang di portofolio pribadi saya. Saya berfokus pada pengembangan web, infrastruktur jaringan, dan solusi sistem informasi.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: PENGALAMAN ORGANISASI (MINIMALIST GALLERY) -->
+    <section id="pengalaman" class="section">
+      <h2 class="section-title">Pengalaman Organisasi</h2>
+      <div class="org-gallery">
+        <!-- Item 1 -->
+        <div class="org-item">
+          <div class="org-img-box">
+            <div class="img-placeholder">Foto Kegiatan 1</div>
+            <!-- Jika sudah ada foto: <img src="assets/images/org1.jpg" alt="Organisasi 1"> -->
+          </div>
+          <div class="org-details">
+            <span class="org-year">2023 - 2024</span>
+            <h3>Divisi Jaringan & Keamanan</h3>
+            <h4>Himpunan Mahasiswa / Komunitas</h4>
+            <p>Bertanggung jawab atas infrastruktur jaringan event dan pengamanan sistem internal.</p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="org-item">
+          <div class="org-img-box">
+            <div class="img-placeholder">Foto Kegiatan 2</div>
+            <!-- Jika sudah ada foto: <img src="assets/images/org2.jpg" alt="Organisasi 2"> -->
+          </div>
+          <div class="org-details">
+            <span class="org-year">2023</span>
+            <h3>Tim Keamanan & Logistik</h3>
+            <h4>Panitia Fun Run / Event Kampus</h4>
+            <p>Menyusun SOP keamanan non-represif dan koordinasi teknis lapangan.</p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="org-item">
+          <div class="org-img-box">
+            <div class="img-placeholder">Foto Kegiatan 3</div>
+            <!-- Jika sudah ada foto: <img src="assets/images/org3.jpg" alt="Organisasi 3"> -->
+          </div>
+          <div class="org-details">
+            <span class="org-year">2022</span>
+            <h3>Anggota Angkatan</h3>
+            <h4>Divisi Desain & Atribut</h4>
+            <p>Mengkoordinasikan perancangan atribut dan identitas visual angkatan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: HARD SKILLS -->
+    <section id="skills" class="section bg-alt">
+      <h2 class="section-title">Hard Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <h3>Web Development</h3>
+          <p>HTML5, CSS3, JavaScript, PHP, React Js, Node Js, Laravel, CodeIgniter 4</p>
+        </div>
+        <div class="skill-card">
+          <h3>Networking & Systems</h3>
+          <p>Windows Server, Active Directory, SMB over QUIC, Azure Cloud, OSI Layers</p>
+        </div>
+        <div class="skill-card">
+          <h3>Database & Tools</h3>
+          <p>MySQL, RBAC Logic, Git / GitHub, VS Code</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: PROJECT -->
+    <section id="project" class="section">
+      <h2 class="section-title">Project</h2>
+      <div class="project-grid">
+        <div class="project-card">
+          <div class="project-img-wrapper">
+            <div class="img-placeholder">Screenshot Project 1</div>
+          </div>
+          <div class="project-info">
+            <span class="tech-tag">CodeIgniter 4</span>
+            <h3>KlaimObat System</h3>
+            <p>Sistem pengajuan klaim medis berbasis web dengan alur multi-level approval untuk Pegawai, HRD, dan Finance.</p>
+            <div class="project-links">
+              <a href="https://github.com/username-kamu/klaim-obat" target="_blank" rel="noopener noreferrer" class="btn-github">GitHub Repository ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-img-wrapper">
+            <div class="img-placeholder">Screenshot Project 2</div>
+          </div>
+          <div class="project-info">
+            <span class="tech-tag">Web & Analytics</span>
+            <h3>Shopee Financial Dashboard</h3>
+            <p>Dashboard internal tracking performa penjualan, potongan biaya administrasi, dan rekonsil keuangan e-commerce.</p>
+            <div class="project-links">
+              <a href="https://github.com/username-kamu/shopee-dashboard" target="_blank" rel="noopener noreferrer" class="btn-github">GitHub Repository ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER / HAK CIPTA -->
+    <footer>
+      <p>&copy;2026 Portofolio Fadli.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
