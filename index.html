@@ -7,12 +7,8 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <!-- CANVAS BACKGROUND ANIMASI JS -->
-    <canvas id="bg-canvas"></canvas>
-
-    <!-- NAVIGASI (CENTERED + HAMBURGER MENU) -->
+    <!-- NAVIGASI -->
     <nav class="navbar">
-      <!-- Tombol Garis 3 (Hanya tampil di HP) -->
       <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
         <span class="bar"></span>
         <span class="bar"></span>
@@ -27,84 +23,81 @@
       </ul>
     </nav>
 
-    <!-- HOME SECTION (FOTO DI ATAS & TEKS DITENGAH) -->
+    <!-- SECTION 1: HOME / HERO -->
     <section id="home" class="hero-section">
-      <div class="hero-content">
-        <div class="hero-image">
-          <img src="assets/images/Fadli-Willyandana.png" alt="Foto Profil Fadli Willyandana" />
-        </div>
-        <div class="hero-text">
-          <h1><span id="typing-text"></span><span class="cursor">|</span></h1>
-          <p>Selamat datang di portofolio pribadi saya. Saya berfokus pada pengembangan web, infrastruktur jaringan, dan solusi sistem informasi.</p>
+      <div class="hero-card-wrapper">
+        <!-- Konten Utama -->
+        <div class="hero-container">
+          <div class="hero-text-left">
+            <h1><span id="typing-text"></span><span class="cursor">|</span></h1>
+            <p>Selamat datang di portofolio pribadi saya. Saya berfokus pada pengembangan web, infrastruktur jaringan, dan solusi sistem informasi.</p>
+            <div class="hero-cta">
+              <a href="#project" class="btn btn-primary">Lihat Project</a>
+              <a href="#pengalaman" class="btn btn-secondary">Pengalaman</a>
+            </div>
+          </div>
+
+          <div class="hero-card-right">
+            <div class="hero-image-box">
+              <img src="assets/images/Fadli-Willyandana.png" alt="Foto Profil Fadli Willyandana" />
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 2: PENGALAMAN ORGANISASI (MINIMALIST GALLERY) -->
+    <!-- SECTION 2: PENGALAMAN ORGANISASI -->
     <section id="pengalaman" class="section">
       <h2 class="section-title">Pengalaman Organisasi</h2>
       <div class="org-gallery">
-        <!-- Item 1 -->
+        <!-- Item 1 (Gambar Kiri) -->
         <div class="org-item">
           <div class="org-img-box">
             <div class="img-placeholder">Foto Kegiatan 1</div>
-            <!-- Jika sudah ada foto: <img src="assets/images/org1.jpg" alt="Organisasi 1"> -->
+            <!-- <img src="assets/images/org1.jpg" alt="Kolaborun Fun Run 2025"> -->
           </div>
           <div class="org-details">
-            <span class="org-year">Des-2026 - Feb-2026</span>
+            <span class="org-year">Des-2025 - Feb-2026</span>
             <h3>Kolaborun Fun Run 2025</h3>
             <h4>Koordinator Divisi Marshall</h4>
-            <p>- Mengoordinasikan tim marshal serta menganalisis layout lintasan untuk memastikan keamanan dan kelancaran acara.</p>
-            <p>- Menentukan penempatan marshal berdasarkan analisis rute dan potensi risiko sepanjang lintasan.</p>
+            <ul class="org-desc">
+              <li>Mengoordinasikan tim marshal serta menganalisis layout lintasan untuk memastikan keamanan dan kelancaran acara.</li>
+              <li>Menentukan penempatan marshal berdasarkan analisis rute dan potensi risiko sepanjang lintasan.</li>
+            </ul>
           </div>
         </div>
 
-        <!-- Item 2 -->
-        <div class="org-item">
-          <!-- 1. Container Video Reels (Di Atas) -->
-          <div class="reels-container">
-            <div class="reel-card">
-              <video controls muted preload="metadata">
-                <source src="assets/Videos/Reels1.mp4" type="video/mp4" />
-                Browser kamu tidak mendukung pemutaran video.
-              </video>
-            </div>
-            <div class="reel-card">
-              <video controls muted preload="metadata">
-                <source src="assets/Videos/Reels2.mp4" type="video/mp4" />
-                Browser kamu tidak mendukung pemutaran video.
-              </video>
-            </div>
-            <div class="reel-card">
-              <video controls muted preload="metadata">
-                <source src="assets/Videos/Reels3.mp4" type="video/mp4" />
-                Browser kamu tidak mendukung pemutaran video.
-              </video>
-            </div>
+        <!-- Item 2 (Gambar Kanan) -->
+        <div class="org-item org-item-reverse">
+          <div class="org-img-box">
+            <div class="img-placeholder">Foto Kegiatan 2</div>
+            <!-- <img src="assets/images/org2.jpg" alt="LCC Videography"> -->
           </div>
-
-          <!-- 2. Deskripsi Teks (Di Bawah Video) -->
-          <div class="org-details" style="margin-top: 15px">
+          <div class="org-details">
             <span class="org-year">Jan-2025 - Jan-2026</span>
             <h3>LCC (LP3I Computer Club)</h3>
             <h4>Kepala Divisi Videography</h4>
-            <p>- Mengoordinasikan tim videografi, mulai dari perencanaan konsep hingga pembagian tugas produksi.</p>
-            <p>- Berkolaborasi dengan divisi lain untuk menghasilkan konten video yang informatif dan menarik.</p>
+            <ul class="org-desc">
+              <li>Mengoordinasikan tim videografi, mulai dari perencanaan konsep hingga pembagian tugas produksi.</li>
+              <li>Berkolaborasi dengan divisi lain untuk menghasilkan konten video yang informatif dan menarik.</li>
+            </ul>
           </div>
         </div>
 
-        <!-- Item 3 -->
+        <!-- Item 3 (Gambar Kiri) -->
         <div class="org-item">
           <div class="org-img-box">
             <div class="img-placeholder">Foto Kegiatan 3</div>
-            <!-- Jika sudah ada foto: <img src="assets/images/org3.jpg" alt="Organisasi 3"> -->
+            <!-- <img src="assets/images/org3.jpg" alt="LCC Desain"> -->
           </div>
           <div class="org-details">
-            <span class="org-year">Jan-2024 - Jan-2025 </span>
+            <span class="org-year">Jan-2024 - Jan-2025</span>
             <h3>LCC (LP3I Computer Club)</h3>
             <h4>Divisi Desain & Atribut</h4>
-            <p>- Merancang aset visual kreatif seperti poster, feed media sosial, dan materi promosi organisasi.</p>
-            <p>- Mengembangkan konsep desain komunikatif sesuai identitas visual organisasi.</p>
+            <ul class="org-desc">
+              <li>Merancang aset visual kreatif seperti poster, feed media sosial, dan materi promosi organisasi.</li>
+              <li>Mengembangkan konsep desain komunikatif sesuai identitas visual organisasi.</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -142,7 +135,7 @@
             <h3>KlaimObat System</h3>
             <p>Sistem pengajuan klaim medis berbasis web dengan alur multi-level approval untuk Pegawai, HRD, dan Finance.</p>
             <div class="project-links">
-              <a href="https://github.com/username-kamu/klaim-obat" target="_blank" rel="noopener noreferrer" class="btn-github">GitHub Repository ↗</a>
+              <a href="https://github.com/username-kamu/klaim-obat" target="_blank" rel="noopener noreferrer" class="btn btn-github">GitHub Repository ↗</a>
             </div>
           </div>
         </div>
@@ -156,16 +149,30 @@
             <h3>Shopee Financial Dashboard</h3>
             <p>Dashboard internal tracking performa penjualan, potongan biaya administrasi, dan rekonsil keuangan e-commerce.</p>
             <div class="project-links">
-              <a href="https://github.com/username-kamu/shopee-dashboard" target="_blank" rel="noopener noreferrer" class="btn-github">GitHub Repository ↗</a>
+              <a href="https://github.com/username-kamu/shopee-dashboard" target="_blank" rel="noopener noreferrer" class="btn btn-github">GitHub Repository ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-img-wrapper">
+            <div class="img-placeholder">Screenshot Project 3</div>
+          </div>
+          <div class="project-info">
+            <span class="tech-tag">System & Network</span>
+            <h3>Network Security Analysis</h3>
+            <p>Studi analisis keamanan jaringan, identifikasi celah serangan (MitM & DoS), serta implementasi pencegahannya.</p>
+            <div class="project-links">
+              <a href="https://github.com/username-kamu/network-security" target="_blank" rel="noopener noreferrer" class="btn btn-github">GitHub Repository ↗</a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- FOOTER / HAK CIPTA -->
+    <!-- FOOTER -->
     <footer>
-      <p>&copy;2026 Portofolio Fadli.</p>
+      <p>&copy; 2026 Portofolio Fadli. All rights reserved.</p>
     </footer>
 
     <script src="js/main.js"></script>
