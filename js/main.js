@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const typingElement = document.getElementById('typing-text');
 
   // HANYA 1 KALIMAT UTAMA
-  const words = ['Welcome Portofolio Fadli'];
+  const words = ['Full STack Web Developer'];
 
   let wordIndex = 0;
   let charIndex = 0;
