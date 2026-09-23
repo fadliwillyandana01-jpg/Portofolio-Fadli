@@ -1,3 +1,10 @@
+/* Satu acuan lebar & gutter untuk semua section supaya tepi kartu sejajar */
+:root {
+  --content-width: 1100px;
+  --gutter: 5%;
+  --panel-padding: 2.5rem; /* Padding kiri-kanan kartu .section-panel */
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -14,6 +21,24 @@ body {
 }
 
 /* ==========================================
+   BACKGROUND POLA HALAMAN
+   Satu layer pola untuk seluruh halaman (sampai bawah), jadi
+   tidak ada ujung pattern yang terlihat "nabrak" di section mana pun
+   ========================================== */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  /* Pakai gambar asli (Bg-Hero-Section.png) */
+  background-image: url('../assets/images/Bg-Hero-Section.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  opacity: 0.35; /* Diselaraskan: pola sama lembutnya di seluruh halaman, atas maupun bawah */
+  pointer-events: none;
+  z-index: -1; /* Di belakang semua konten, di atas warna dasar body */
+}
+
+/* ==========================================
    NAVIGASI (DESKTOP)
    ========================================== */
 .navbar {
@@ -22,19 +47,35 @@ body {
   left: 0;
   width: 100%;
   display: flex;
-  justify-content: center;
+  /* Logo di kiri - nav link + tombol profil GitHub di kanan */
+  justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+  /* Padding kiri-kanan navbar dikembalikan ke 8% seperti semula,
+     supaya logo & tombol profil tidak mepet ujung layar */
   padding: 1rem 8%;
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid #eeeeee;
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   z-index: 1000;
+}
+
+/* Navbar jadi putih semi transparan setelah halaman di-scroll,
+   supaya link tidak bertabrakan dengan konten di belakangnya */
+.navbar.scrolled {
+  background-color: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom-color: #eeeeee;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
 .nav-links {
   display: flex;
   list-style: none;
   gap: 1.5rem;
+  /* Mendorong navigasi ke sisi kanan navbar, tepat sebelum tombol profil GitHub */
+  margin-left: auto;
 }
 
 .nav-links a {
@@ -50,6 +91,77 @@ body {
 .nav-links a:hover {
   color: #ffffff;
   background-color: #000000;
+}
+
+/* --- Brand di kiri navbar: logo --- */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+/* Kotak pembungkus logo. File logo asli punya ruang transparan yang lebar,
+   jadi isinya dipotong pakai overflow + scale supaya yang tampil logo saja */
+.nav-logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.nav-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Dipakai untuk membuang padding transparan di sekeliling logo */
+  transform: translateY(-2px) scale(2.2);
+  /* Warna asli logo nyaris putih (#EAE8E8) sehingga tidak terbaca di navbar;
+     dijadikan hitam mengikuti tema hitam-putih halaman ini.
+     Hapus baris filter ini kalau ingin memakai warna asli logo. */
+  filter: brightness(0);
+}
+
+.nav-brand:hover .nav-logo {
+  opacity: 0.7;
+}
+
+/* --- Tombol menuju profil GitHub di kanan navbar --- */
+.nav-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Tombol profil GitHub: default hitam, saat di-hover berubah jadi putih
+   (disamakan dengan tombol .btn-primary / .btn-secondary / .btn-github) */
+.nav-profile-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.nav-profile-btn:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.nav-profile-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  flex-shrink: 0;
 }
 
 .menu-toggle {
@@ -76,11 +188,7 @@ body {
    SHARED SECTIONS & BUTTONS
    ========================================== */
 .section {
-  padding: 3.5rem 8%;
-}
-
-.bg-alt {
-  background-color: #fafafa;
+  padding: 3.5rem var(--gutter);
 }
 
 .section-title {
@@ -119,18 +227,22 @@ body {
 }
 
 .btn-primary:hover {
-  background-color: #333333;
-}
-
-.btn-secondary {
+  /* Tombol hitam -> jadi putih saat di-hover */
   background-color: #ffffff;
   color: #000000;
-  border: 1px solid #cccccc;
+}
+
+/* Semua tombol disamakan gayanya: default hitam, hover berubah jadi putih */
+.btn-secondary {
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
 }
 
 .btn-secondary:hover {
+  background-color: #ffffff;
+  color: #000000;
   border-color: #000000;
-  background-color: #f5f5f5;
 }
 
 .btn-github {
@@ -138,18 +250,45 @@ body {
   text-align: center;
   background-color: #000000;
   color: #ffffff;
+  border: 1px solid #000000;
   font-size: 0.8rem;
 }
 
 .btn-github:hover {
-  background-color: #333333;
+  /* Tombol hitam -> jadi putih saat di-hover */
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* ==========================================
+   KARTU WADAH SECTION (HARD SKILLS & PROJECT)
+   Section dibungkus jadi kartu supaya rapi; lebar & posisinya
+   sama persis dengan .hero-card-wrapper
+   ========================================== */
+.section-panel {
+  position: relative;
+  z-index: 1;
+  /* Lebar & posisi sama persis dengan .hero-card-wrapper agar tepi kartu sejajar */
+  width: calc(100% - var(--gutter) * 2);
+  max-width: var(--content-width);
+  /* Jarak atas-bawah disamakan dengan jarak antar section supaya iramanya seragam */
+  margin: 3.5rem auto;
+  padding: 3.5rem var(--panel-padding);
+  background-color: #fafafa; /* Kartu wadah section */
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 24px; /* Samakan bahasa desain dengan .hero-card-wrapper */
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
+  scroll-margin-top: 90px; /* Judul tidak ketutup navbar saat link nav diklik */
 }
 
 /* ==========================================
    HERO SECTION (DESKTOP)
    ========================================== */
 .hero-section {
-  padding: 120px 5% 2.5rem;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding: 90px var(--gutter) 2.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -157,12 +296,14 @@ body {
 
 .hero-card-wrapper {
   position: relative;
+  z-index: 2; /* Berada di atas gambar background */
   width: 100%;
-  max-width: 1100px;
-  background: #ffffff;
+  max-width: var(--content-width);
+  /* Kaca tipis: pola background tetap kelihatan, teks tetap terbaca */
+  background: rgba(255, 255, 255, 0.35);
   border-radius: 24px;
   padding: 3rem 2.5rem;
-  border: 1px solid #f0f0f0;
+  border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
@@ -193,24 +334,95 @@ body {
   color: #555555;
   margin-bottom: 1.8rem;
   max-width: 480px;
+  animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.85s both;
 }
 
-.hero-text-left h1 .cursor {
+/* ==========================================
+   ANIMASI JUDUL HERO (REVEAL PER HURUF)
+   js/main.js memecah judul jadi per huruf; setiap huruf muncul
+   satu-satu: naik sedikit, membesar, lalu blur-nya hilang.
+   ========================================== */
+.hero-title {
+  --letter-stagger: 30ms; /* Jeda kemunculan antar huruf */
+}
+
+.hero-title-word {
   display: inline-block;
-  color: #000000;
-  margin-left: 2px;
-  animation: blink 0.7s infinite;
+  white-space: nowrap; /* Kata tidak terpotong di tengah */
+}
+
+.hero-title-letter {
+  display: inline-block;
+  animation: letterReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--letter-index, 0) * var(--letter-stagger));
+}
+
+@keyframes letterReveal {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em) scale(0.94);
+    filter: blur(10px);
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Garis bawah judul: tumbuh dari kiri setelah huruf terakhir muncul,
+   lalu ada kilau halus yang bergerak (bahasa desain sama dengan .section-title::after) */
+.hero-title::after {
+  content: '';
+  display: block;
+  width: 130px;
+  height: 4px;
+  margin-top: 0.85rem;
+  border-radius: 999px;
+  background-image: linear-gradient(100deg, #000000 0%, #000000 42%, #9c9c9c 52%, #000000 62%, #000000 100%);
+  background-size: 280% 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: titleBarGrow 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.05s forwards,
+    titleBarShine 3.2s linear 1.85s infinite;
+}
+
+@keyframes titleBarGrow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes titleBarShine {
+  from { background-position: 130% 0; }
+  to { background-position: -130% 0; }
+}
+
+/* Elemen hero lain ikut muncul berurutan setelah huruf judul */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero-cta {
   display: flex;
   gap: 1rem;
+  animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1s both;
 }
 
 .hero-card-right {
   flex: 0.9;
   display: flex;
   justify-content: center;
+  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
 
 /* Card Foto Profil & Hover Effect */
@@ -246,19 +458,22 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
-  max-width: 1000px;
+  /* Lebarnya disamakan dengan container section lain supaya tepinya sejajar */
+  max-width: var(--content-width);
   margin: 0 auto;
 }
 
 .org-item {
   background: #ffffff;
   padding: 1.8rem;
-  border-radius: 12px;
-  border: 1px solid #eeeeee;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   gap: 2rem;
-  align-items: center;
+  align-items: stretch; /* Kolom foto ikut tinggi kartu */
+  min-height: 300px; /* Tinggi semua kartu organisasi jadi seragam */
 }
 
 .org-item-reverse {
@@ -266,20 +481,35 @@ body {
 }
 
 .org-img-box {
-  width: 240px;
-  height: 160px;
+  width: 360px; /* Diperbesar dari 240px agar gambar lebih dominan */
+  max-width: 40%; /* Menjaga batas proporsi terhadap kartu */
+  display: flex; /* Supaya foto bisa mengisi tinggi kartu */
   flex-shrink: 0;
 }
 
 .org-img-box img,
 .img-placeholder {
   width: 100%;
-  height: 100%;
+  height: 100%; /* Mengisi tinggi kartu supaya sejajar antar kartu */
+  object-fit: contain;    /* Memastikan foto tidak gepeng/terdistorsi */
+  object-position: center;
   border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.org-img-box .img-placeholder {
+  position: relative;
+  height: auto; /* Tinggi mengikuti tinggi kartu (stretch dari .org-img-box) */
+  overflow: hidden; /* Foto yang lebih tinggi ikut terpotong rapi */
 }
 
 .org-img-box img {
-  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Foto mengisi kotak tanpa gepeng */
 }
 
 .img-placeholder {
@@ -294,6 +524,9 @@ body {
 
 .org-details {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Teks sejajar tengah terhadap foto */
 }
 
 .org-year {
@@ -333,19 +566,23 @@ body {
    ========================================== */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* 3 kolom sama lebar, seragam dengan .project-grid */
   gap: 1.5rem;
-  max-width: 1050px;
+  max-width: var(--content-width);
   margin: 0 auto;
 }
 
 .skill-card {
   background: #ffffff;
   padding: 1.8rem;
-  border-radius: 12px;
-  border: 1px solid #eeeeee;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Isi kartu rata tengah walau panjang teksnya berbeda */
 }
 
 .skill-card h3 {
@@ -366,16 +603,16 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-  max-width: 1050px;
+  max-width: var(--content-width);
   margin: 0 auto;
 }
 
 .project-card {
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
-  border: 1px solid #eeeeee;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -388,7 +625,16 @@ body {
 
 .project-img-wrapper {
   width: 100%;
-  height: 160px;
+  aspect-ratio: 16 / 10; /* Tinggi seragam & proporsional untuk semua kartu project */
+  background-color: #f4f4f5;
+}
+
+.project-img-wrapper .img-placeholder {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .project-info {
@@ -427,16 +673,15 @@ body {
    ========================================== */
 footer {
   text-align: center;
-  padding: 2rem 8%;
-  background-color: #ffffff;
-  border-top: 1px solid #eeeeee;
+  padding: 2rem var(--gutter);
+  /* Kaca lembut: nilainya disamakan dengan .hero-card-wrapper (35%)
+     supaya pola di belakang container kaca sama lembutnya & tetap kelihatan */
+  background-color: rgba(255, 255, 255, 0.35);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
   color: #777777;
   font-size: 0.85rem;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
 }
 
 /* ==========================================
@@ -444,7 +689,12 @@ footer {
    ========================================== */
 @media (max-width: 992px) {
   .hero-section {
-    padding-top: 100px;
+    padding-top: 78px;
+  }
+
+  /* Teks hero jadi rata tengah, garis bawah judul ikut ke tengah */
+  .hero-title::after {
+    margin: 0.85rem auto 0;
   }
 
   .hero-card-wrapper {
@@ -470,30 +720,85 @@ footer {
     height: 330px;
   }
 
-  .project-grid {
+  .project-grid,
+  .skills-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  :root {
+    --panel-padding: 1.8rem;
+  }
+
+  .section-panel {
+    margin: 2.5rem auto;
+    padding: 2.5rem var(--panel-padding);
+    border-radius: 20px;
+  }
+
+  /* Navbar versi tablet dibuat lebih rapat supaya brand, nav link,
+     dan tombol profil GitHub tetap muat dalam satu baris */
+  .nav-links {
+    gap: 0.5rem;
+  }
+
+  .nav-links a {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+
+  .nav-profile-btn {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
 }
+
+/* Coding diatas sini yaa di bawah itu buat tampilan css biar ngga ada merusak tampilan
+Hp/Tablet */
 
 /* ==========================================
    RESPONSIVE DESIGN: MOBILE (Max Width 768px)
    ========================================== */
 @media (max-width: 768px) {
+  :root {
+    --gutter: 4%;
+    --panel-padding: 1rem;
+  }
+
   .section {
-    padding: 2rem 5%;
+    padding: 2rem var(--gutter);
   }
 
   /* Navbar Lebih Luas & Hamburger Turun Presisi */
   .navbar {
-    padding: 1.2rem 5%;
+    padding: 1.2rem var(--gutter);
     min-height: 60px;
-    justify-content: flex-start;
+    justify-content: space-between; /* Brand di kiri, tombol profil di kanan */
+  }
+
+  /* Brand digeser sedikit ke kanan supaya tidak bertabrakan dengan ikon hamburger */
+  .nav-brand {
+    margin-left: 42px;
+    gap: 8px;
+  }
+
+  .nav-logo-box {
+    width: 44px;
+    height: 26px;
+  }
+
+  /* Di layar HP label teks disembunyikan, tinggal ikon GitHub saja */
+  .nav-profile-label {
+    display: none;
+  }
+
+  .nav-profile-btn {
+    padding: 9px 11px;
   }
 
   .menu-toggle {
     display: flex;
     position: absolute;
-    left: 5%;
+    left: var(--gutter);
     top: 50%;
     transform: translateY(-50%);
   }
@@ -518,7 +823,7 @@ footer {
 
   /* Kompresi Hero Section Agar Tombol Bawah Terlihat */
   .hero-section {
-    padding: 70px 4% 1rem;
+    padding: 82px var(--gutter) 1rem; /* Ditambah karena navbar kini berisi brand + tombol profil */
   }
 
   .hero-card-wrapper {
@@ -540,6 +845,13 @@ footer {
     margin-bottom: 0.4rem;
   }
 
+  /* Garis bawah judul dibuat lebih ringkas di layar HP */
+  .hero-title::after {
+    width: 100px;
+    height: 3px;
+    margin: 0.6rem auto 0;
+  }
+
   .hero-text-left p {
     font-size: 0.88rem;
     margin-bottom: 1rem;
@@ -554,14 +866,49 @@ footer {
   .org-item-reverse {
     flex-direction: column;
     align-items: flex-start;
+    min-height: 0; /* Di mobile tinggi kartu mengikuti isi */
   }
 
   .org-img-box {
     width: 100%;
-    height: 180px;
+    max-width: 100%;
+    display: block;
   }
 
-  .project-grid {
+  .org-img-box .img-placeholder {
+    height: auto;
+    aspect-ratio: 4 / 3; /* Balik ke rasio asli karena susunan sudah vertikal */
+  }
+
+  .project-grid,
+  .skills-grid {
     grid-template-columns: 1fr;
+  }
+
+  .section-panel {
+    margin: 2rem auto;
+    padding: 2rem var(--panel-padding);
+    border-radius: 18px;
+    scroll-margin-top: 70px;
+  }
+}
+
+/* ==========================================
+   HORMATI PREFERENSI "REDUCE MOTION"
+   Kalau pengguna mematikan animasi di sistemnya, seluruh animasi hero
+   dimatikan dan semua elemen langsung tampil dalam keadaan akhir
+   ========================================== */
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-letter,
+  .hero-text-left p,
+  .hero-cta,
+  .hero-card-right {
+    animation: none;
+  }
+
+  /* Garis bawah tetap terlihat, hanya tanpa animasi tumbuh & kilau */
+  .hero-title::after {
+    transform: scaleX(1);
+    animation: none;
   }
 }

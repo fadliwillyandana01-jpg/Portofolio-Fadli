@@ -1,64 +1,83 @@
 document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.getElementById('menu-toggle');
   const navLinks = document.getElementById('nav-links');
+  const navbar = document.querySelector('.navbar');
+
+  // Navbar transparan saat di posisi paling atas, lalu jadi putih
+  // semi transparan begitu halaman di-scroll agar link tetap nyaman dibaca
+  const syncNavbarBackground = () => {
+    const isMenuOpen = navLinks.classList.contains('active');
+    navbar.classList.toggle('scrolled', window.scrollY > 40 || isMenuOpen);
+  };
 
   // Buka / Tutup Menu saat ikon garis 3 diklik
   menuToggle.addEventListener('click', () => {
     menuToggle.classList.toggle('active');
     navLinks.classList.toggle('active');
+    syncNavbarBackground();
   });
 
   // Otomatis tutup menu setelah pengguna memilih salah satu link
-  document.querySelectorAll('.nav-links a').forEach((link) => {
+  // (termasuk saat klik logo FW di kiri navbar)
+  document.querySelectorAll('.nav-links a, .nav-brand').forEach((link) => {
     link.addEventListener('click', () => {
       menuToggle.classList.remove('active');
       navLinks.classList.remove('active');
+      syncNavbarBackground();
     });
   });
+
+  window.addEventListener('scroll', syncNavbarBackground);
+  window.addEventListener('resize', syncNavbarBackground);
+  syncNavbarBackground();
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const typingElement = document.getElementById('typing-text');
+// Animasi reveal per huruf pada judul hero (dipanggil di bagian bawah file ini)
+const initHeroTitleReveal = () => {
+  const heroTitle = document.querySelector('.hero-title');
 
-  // HANYA 1 KALIMAT UTAMA
-  const words = ['Full-Stack Web Developer'];
+  if (!heroTitle) return;
 
-  let wordIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
+  // Kalau pengguna mengaktifkan "kurangi gerakan" di sistemnya,
+  // judul dibiarkan tampil apa adanya tanpa animasi
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  function typeEffect() {
-    const currentWord = words[wordIndex];
+  const titleText = heroTitle.textContent.trim();
 
-    if (isDeleting) {
-      // MENGHAPUS TEKS
-      typingElement.textContent = currentWord.substring(0, charIndex - 1);
-      charIndex--;
-    } else {
-      // MENGETIK TEKS
-      typingElement.textContent = currentWord.substring(0, charIndex + 1);
-      charIndex++;
+  // Kosongkan judul, lalu bangun ulang jadi per kata & per huruf
+  heroTitle.textContent = '';
+
+  titleText.split(' ').forEach((word, index, words) => {
+    const wordSpan = document.createElement('span');
+    wordSpan.className = 'hero-title-word';
+
+    [...word].forEach((char) => {
+      const letterSpan = document.createElement('span');
+      letterSpan.className = 'hero-title-letter';
+      letterSpan.textContent = char;
+      wordSpan.appendChild(letterSpan);
+    });
+
+    heroTitle.appendChild(wordSpan);
+
+    // Spasi antar kata dikembalikan sebagai text node supaya teks tetap bisa wrap
+    if (index < words.length - 1) {
+      heroTitle.appendChild(document.createTextNode(' '));
     }
+  });
 
-    // Kecepatan Mengetik & Menghapus
-    let typeSpeed = isDeleting ? 60 : 100;
+  // --letter-index dipakai CSS untuk menghitung jeda kemunculan tiap huruf
+  heroTitle.querySelectorAll('.hero-title-letter').forEach((letter, index) => {
+    letter.style.setProperty('--letter-index', index);
+  });
+};
 
-    // Jika teks sudah selesai diketik penuh
-    if (!isDeleting && charIndex === currentWord.length) {
-      typeSpeed = 2500; // Diam/tampil selama 2.5 detik sebelum mulai terhapus
-      isDeleting = true;
-    }
-    // Jika teks sudah terhapus total
-    else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      typeSpeed = 500; // Jeda sebentar sebelum mulai mengetik lagi dari awal
-    }
-
-    setTimeout(typeEffect, typeSpeed);
-  }
-
-  if (typingElement) {
-    typeEffect();
-  }
-});
+// Skrip ini dimuat di akhir <body>, jadi elemen judul sudah ada saat baris ini jalan.
+// Dijalankan langsung supaya judul tidak sempat tampil utuh lalu "berkedip"
+// sebelum animasinya mulai.
+if (document.querySelector('.hero-title')) {
+  initHeroTitleReveal();
+} else {
+  document.addEventListener('DOMContentLoaded', initHeroTitleReveal);
+}
 

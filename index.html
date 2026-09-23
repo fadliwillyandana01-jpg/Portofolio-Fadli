@@ -4,9 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portofolio - Fadli</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css?v=6" />
   </head>
   <body>
+    <!-- BACKGROUND POLA: satu layer untuk seluruh halaman -->
+    <div class="page-bg" aria-hidden="true"></div>
+
     <!-- NAVIGASI -->
     <nav class="navbar">
       <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
@@ -15,12 +18,31 @@
         <span class="bar"></span>
       </button>
 
+      <!-- BRAND (kiri navbar): logo Fadli -->
+      <a href="#home" class="nav-brand" aria-label="Fadli Willyandana, kembali ke Home">
+        <span class="nav-logo-box">
+          <img src="assets/images/logo-Fadli%20.png" alt="Logo Fadli Willyandana" class="nav-logo" />
+        </span>
+      </a>
+
       <ul class="nav-links" id="nav-links">
         <li><a href="#home">Home</a></li>
         <li><a href="#pengalaman">Pengalaman</a></li>
         <li><a href="#skills">Hard Skills</a></li>
         <li><a href="#project">Project</a></li>
       </ul>
+
+      <!-- TOMBOL PROFIL GITHUB (kanan navbar) -->
+      <div class="nav-actions">
+        <a href="https://github.com/fadliwillyandana01-jpg" target="_blank" rel="noopener noreferrer" class="nav-profile-btn" title="Lihat profil GitHub Fadli Willyandana" aria-label="Buka profil GitHub Fadli Willyandana di tab baru">
+          <svg class="nav-profile-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+            />
+          </svg>
+          <span class="nav-profile-label">GitHub</span>
+        </a>
+      </div>
     </nav>
 
     <!-- SECTION 1: HOME / HERO -->
@@ -29,8 +51,13 @@
         <!-- Konten Utama -->
         <div class="hero-container">
           <div class="hero-text-left">
-            <h1><span id="typing-text"></span><span class="cursor">|</span></h1>
-            <p>Selamat datang di portofolio pribadi saya. Saya berfokus pada pengembangan web, infrastruktur jaringan, dan solusi sistem informasi.</p>
+            <!-- Judul ditulis langsung di HTML (ramah SEO & tetap tampil tanpa JS).
+                 js/main.js memecahnya jadi per huruf untuk animasi reveal. -->
+            <h1 class="hero-title">Full-Stack Web Developer</h1>
+            <p>
+              "Halo, saya Fadli Willyandana." Seorang Full-Stack Web Developer & Data Specialist yang berfokus pada pembangunan aplikasi web berbasis data (data-driven), arsitektur sistem informasi, serta analitik data. Saya mengombinasikan
+              logika pemrograman web yang solid dengan pemrosesan data untuk menghadirkan solusi digital yang efisien, responsif, dan terstruktur.
+            </p>
             <div class="hero-cta">
               <a href="#project" class="btn btn-primary">Lihat Project</a>
               <a href="#pengalaman" class="btn btn-secondary">Pengalaman</a>
@@ -53,8 +80,9 @@
         <!-- Item 1 (Gambar Kiri) -->
         <div class="org-item">
           <div class="org-img-box">
-            <div class="img-placeholder">Foto Kegiatan 1</div>
-            <!-- <img src="assets/images/org1.jpg" alt="Kolaborun Fun Run 2025"> -->
+            <div class="img-placeholder">
+              <img src="assets/images/Kolaborun-2026.jpg" alt="Kolaborun Fun Run 2025" />
+            </div>
           </div>
           <div class="org-details">
             <span class="org-year">Des-2025 - Feb-2026</span>
@@ -70,8 +98,7 @@
         <!-- Item 2 (Gambar Kanan) -->
         <div class="org-item org-item-reverse">
           <div class="org-img-box">
-            <div class="img-placeholder">Foto Kegiatan 2</div>
-            <!-- <img src="assets/images/org2.jpg" alt="LCC Videography"> -->
+            <div class="img-placeholder"><img src="assets/images/Organisasi-Card-Divisi_Videography.jpg" alt="LCC Videography" /></div>
           </div>
           <div class="org-details">
             <span class="org-year">Jan-2025 - Jan-2026</span>
@@ -87,8 +114,9 @@
         <!-- Item 3 (Gambar Kiri) -->
         <div class="org-item">
           <div class="org-img-box">
-            <div class="img-placeholder">Foto Kegiatan 3</div>
-            <!-- <img src="assets/images/org3.jpg" alt="LCC Desain"> -->
+            <div class="img-placeholder">
+              <img src="assets/images/Organisasi-Card-Divisi-Desain.jpg" alt="LCC Desain" />
+            </div>
           </div>
           <div class="org-details">
             <span class="org-year">Jan-2024 - Jan-2025</span>
@@ -104,7 +132,7 @@
     </section>
 
     <!-- SECTION 3: HARD SKILLS -->
-    <section id="skills" class="section bg-alt">
+    <section id="skills" class="section section-panel">
       <h2 class="section-title">Hard Skills</h2>
       <div class="skills-grid">
         <div class="skill-card">
@@ -123,7 +151,7 @@
     </section>
 
     <!-- SECTION 4: PROJECT -->
-    <section id="project" class="section">
+    <section id="project" class="section section-panel">
       <h2 class="section-title">Project</h2>
       <div class="project-grid">
         <div class="project-card">
@@ -175,6 +203,6 @@
       <p>&copy; 2026 Portofolio Fadli. All rights reserved.</p>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=6"></script>
   </body>
 </html>
