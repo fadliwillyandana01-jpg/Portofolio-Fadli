@@ -884,17 +884,17 @@ footer {
   text-align: center;
 }
 
-/* Tombol Live Demo (Default Hijau Solid -> Hover Putih) */
+/* Tombol Live Demo (Default Hijau Soft/Sage -> Hover Putih) */
 .btn-primary {
-  background-color: #10b981;
+  background-color: #4e8168;
   color: #ffffff;
-  border: 1px solid #10b981;
+  border: 1px solid #4e8168;
 }
 
 .btn-primary:hover {
   background-color: #ffffff; /* Saat di-hover berubah menjadi putih */
-  color: #10b981; /* Teks berubah jadi hijau */
-  border-color: #10b981;
+  color: #4e8168; /* Teks berubah jadi hijau soft */
+  border-color: #4e8168;
 }
 
 /* Tombol GitHub / Repository (Default Hitam -> Hover Putih) */

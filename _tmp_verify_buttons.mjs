@@ -126,6 +126,9 @@ async function hover(selector) {
 }
 
 const hero = await readStyle(HERO_SEL);
+const tag = await readStyle('#project .project-card:nth-child(1) .tech-tag');
+console.log('=== TECH TAG (kategori) ===');
+console.log(JSON.stringify(tag, null, 1));
 await shot('_tmp_normal.png', card);
 const demo = await hover(DEMO_SEL);
 await shot('_tmp_hover_demo.png', card);
