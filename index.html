@@ -1,16 +1,32 @@
+<!-- =========================================================================
+     PORTFOLIO FADLI WILLYANDANA - index.html
+     Struktur file (cari komentar "SECTION n" untuk lompat ke bagian yang error):
+       NAVBAR ............... menu atas (logo, link, tombol GitHub) | CSS: 2. NAVBAR
+       SECTION 1: HOME ...... kartu hero + foto profil | CSS: 4. HERO SECTION
+       SECTION 2: PENGALAMAN  kartu organisasi | CSS: 5. PENGALAMAN ORGANISASI
+       SECTION 3: HARD SKILLS  | CSS: 6. SKILLS & PROJECTS GRID
+       SECTION 4: PROJECT ...  | CSS: 6. SKILLS & PROJECTS GRID
+       FOOTER ............... hak cipta | CSS: 7. FOOTER
+     Pengaturan responsif (tablet/HP) ada di CSS bagian 8, animasi di js/main.js.
+     ========================================================================= -->
 <!doctype html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portofolio - Fadli</title>
-    <link rel="stylesheet" href="css/style.css?v=6" />
+    <!-- ?v=7 = penanda versi (cache buster). Naikkan angkanya setiap kali CSS diubah. -->
+    <link rel="stylesheet" href="css/style.css?v=7" />
   </head>
   <body>
     <!-- BACKGROUND POLA: satu layer untuk seluruh halaman -->
     <div class="page-bg" aria-hidden="true"></div>
 
-    <!-- NAVIGASI -->
+    <!-- ==========================================================
+         NAVBAR (CSS: 2. NAVBAR)
+         Tombol menu hanya tampil di HP. Logo (kiri), link menu (tengah),
+         dan tombol GitHub (kanan) selalu tampil.
+         ========================================================== -->
     <nav class="navbar">
       <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
         <span class="bar"></span>
@@ -18,13 +34,14 @@
         <span class="bar"></span>
       </button>
 
-      <!-- BRAND (kiri navbar): logo Fadli -->
+      <!-- Brand / logo kiri (klik = kembali ke Home) -->
       <a href="#home" class="nav-brand" aria-label="Fadli Willyandana, kembali ke Home">
         <span class="nav-logo-box">
           <img src="assets/images/logo-Fadli%20.png" alt="Logo Fadli Willyandana" class="nav-logo" />
         </span>
       </a>
 
+      <!-- Menu utama. Di HP disembunyikan dulu, muncul setelah tombol menu diklik (class .active). -->
       <ul class="nav-links" id="nav-links">
         <li><a href="#home">Home</a></li>
         <li><a href="#pengalaman">Pengalaman</a></li>
@@ -32,7 +49,7 @@
         <li><a href="#project">Project</a></li>
       </ul>
 
-      <!-- TOMBOL PROFIL GITHUB (kanan navbar) -->
+      <!-- Tombol menuju profil GitHub (buka tab baru) -->
       <div class="nav-actions">
         <a href="https://github.com/fadliwillyandana01-jpg" target="_blank" rel="noopener noreferrer" class="nav-profile-btn" title="Lihat profil GitHub Fadli Willyandana" aria-label="Buka profil GitHub Fadli Willyandana di tab baru">
           <svg class="nav-profile-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
@@ -45,25 +62,31 @@
       </div>
     </nav>
 
-    <!-- SECTION 1: HOME / HERO -->
+    <!-- ==========================================================
+         SECTION 1: HOME / HERO (CSS: 4. HERO SECTION)
+         Berisi kartu utama: teks perkenalan (kiri) + foto profil (kanan).
+         ========================================================== -->
     <section id="home" class="hero-section">
       <div class="hero-card-wrapper">
-        <!-- Konten Utama -->
+        <!-- Isi kartu. Di HP susunannya jadi: foto di atas, teks di bawah (lihat CSS 8). -->
         <div class="hero-container">
+          <!-- Kolom kiri: judul, deskripsi, dan tombol aksi -->
           <div class="hero-text-left">
             <!-- Judul ditulis langsung di HTML (ramah SEO & tetap tampil tanpa JS).
-                 js/main.js memecahnya jadi per huruf untuk animasi reveal. -->
+                 js/main.js mengetik ulang teks ini satu kali sebagai animasi pembuka. -->
             <h1 class="hero-title">Full-Stack Web Developer</h1>
             <p>
-              "Halo, saya Fadli Willyandana." Seorang Full-Stack Web Developer & Data Specialist yang berfokus pada pembangunan aplikasi web berbasis data (data-driven), arsitektur sistem informasi, serta analitik data. Saya mengombinasikan
-              logika pemrograman web yang solid dengan pemrosesan data untuk menghadirkan solusi digital yang efisien, responsif, dan terstruktur.
+              "Halo, saya Fadli Willyandana. Saya fokus membangun <b> Web Aplikasi</b> yang efisien dan terstruktur dari perancangan sistem dan <b>Database</b>, pengembangan <b> Backend</b>, hingga tampilan <b>Frontend</b> yang responsif."
             </p>
-            <div class="hero-cta">
-              <a href="#project" class="btn btn-primary">Lihat Project</a>
+            <!-- Bagian Hero / Banner Atas -->
+            <div class="hero-buttons">
+              <!-- Ganti class btn-primary jadi btn-secondary / btn-github biar warnanya sama kaya sebelahnya -->
+              <a href="#project" class="btn btn-secondary">Lihat Project</a>
               <a href="#pengalaman" class="btn btn-secondary">Pengalaman</a>
             </div>
           </div>
 
+          <!-- Kolom kanan: foto profil -->
           <div class="hero-card-right">
             <div class="hero-image-box">
               <img src="assets/images/Fadli-Willyandana.png" alt="Foto Profil Fadli Willyandana" />
@@ -73,11 +96,15 @@
       </div>
     </section>
 
-    <!-- SECTION 2: PENGALAMAN ORGANISASI -->
+    <!-- ==========================================================
+         SECTION 2: PENGALAMAN ORGANISASI (CSS: 5. PENGALAMAN ORGANISASI)
+         Tiap item = 1 kartu: foto di satu sisi, detail di sisi lainnya.
+         Tambah pengalaman baru dengan menyalin pola <div class="org-item"> di bawah.
+         ========================================================== -->
     <section id="pengalaman" class="section">
       <h2 class="section-title">Pengalaman Organisasi</h2>
       <div class="org-gallery">
-        <!-- Item 1 (Gambar Kiri) -->
+        <!-- Item 1: foto di KIRI, teks di kanan -->
         <div class="org-item">
           <div class="org-img-box">
             <div class="img-placeholder">
@@ -95,7 +122,7 @@
           </div>
         </div>
 
-        <!-- Item 2 (Gambar Kanan) -->
+        <!-- Item 2: foto di KANAN (class .org-item-reverse), teks di kiri -->
         <div class="org-item org-item-reverse">
           <div class="org-img-box">
             <div class="img-placeholder"><img src="assets/images/Organisasi-Card-Divisi_Videography.jpg" alt="LCC Videography" /></div>
@@ -111,7 +138,7 @@
           </div>
         </div>
 
-        <!-- Item 3 (Gambar Kiri) -->
+        <!-- Item 3: foto di KIRI, teks di kanan -->
         <div class="org-item">
           <div class="org-img-box">
             <div class="img-placeholder">
@@ -131,78 +158,98 @@
       </div>
     </section>
 
-    <!-- SECTION 3: HARD SKILLS -->
+    <!-- ==========================================================
+         SECTION 3: HARD SKILLS (CSS: 6. SKILLS & PROJECTS GRID)
+         3 kartu keahlian. Grid: 3 kolom (desktop), 2 (tablet), 1 (HP).
+         ========================================================== -->
     <section id="skills" class="section section-panel">
       <h2 class="section-title">Hard Skills</h2>
       <div class="skills-grid">
+        <!-- Kartu 1: Web Development -->
         <div class="skill-card">
           <h3>Web Development</h3>
-          <p>HTML, CSS, JavaScript, PHP, React Js, Node Js, Express.Js, CodeIgniter 4</p>
+          <p>HTML, CSS, JavaScript, PHP, CodeIgniter 4, React.js, Node.js, Express.js</p>
         </div>
+
+        <!-- Kartu 2: Database & Data Handling -->
         <div class="skill-card">
-          <h3>Office & Data Administration</h3>
-          <p>Microsoft Excel, Data Entry, Database Management, Document Archiving, Administrative Support</p>
+          <h3>Database & Data Handling</h3>
+          <p>MySQL, Supabase, Database Management, Data Analysis, Data Mining & Processing</p>
         </div>
+
+        <!-- Kartu 3: Tools & Productivity -->
         <div class="skill-card">
-          <h3>Database & Tools</h3>
-          <p>MySQL, RBAC Logic, Git / GitHub, VS Code</p>
+          <h3>Tools & Productivity</h3>
+          <p>GitHub, VS Code, Ms. Excel, Ms. Word</p>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 4: PROJECT -->
+    <!-- ==========================================================
+         SECTION 4: PROJECT (CSS: 6. SKILLS & PROJECTS GRID)
+         Tiap kartu: area gambar, tag teknologi, judul, deskripsi, link GitHub.
+         Catatan: ganti link "username-kamu/..." dengan URL repository asli.
+         ========================================================== -->
     <section id="project" class="section section-panel">
       <h2 class="section-title">Project</h2>
       <div class="project-grid">
+        <!-- Project 1: C4.5 Sales iPhone -->
         <div class="project-card">
           <div class="project-img-wrapper">
-            <div class="img-placeholder">Screenshot Project 1</div>
+            <div class="img-placeholder">Screenshot C4.5 iPhone</div>
+          </div>
+          <div class="project-info">
+            <span class="tech-tag">Data Mining & Algorithm</span>
+            <h3>Algoritma C4.5 - Sales iPhone</h3>
+            <p>Aplikasi analisis data mining menggunakan Algoritma C4.5 (Decision Tree) untuk memprediksi dan menganalisis pola keputusan penjualan iPhone.</p>
+            <div class="project-links">
+              <a href="https://fadliwillyandana01-jpg.github.io/Project-Data-Mining-AlgoritmaC45-Sales-Iphone/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Live Demo ↗</a>
+              <a href="https://github.com/fadliwillyandana01-jpg/Project-Data-Mining-AlgoritmaC45-Sales-Iphone" target="_blank" rel="noopener noreferrer" class="btn btn-github">Repository ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: KlaimObat System -->
+        <div class="project-card">
+          <div class="project-img-wrapper">
+            <div class="img-placeholder">Screenshot KlaimObat</div>
           </div>
           <div class="project-info">
             <span class="tech-tag">CodeIgniter 4</span>
             <h3>KlaimObat System</h3>
             <p>Sistem pengajuan klaim medis berbasis web dengan alur multi-level approval untuk Pegawai, HRD, dan Finance.</p>
             <div class="project-links">
-              <a href="https://github.com/username-kamu/klaim-obat" target="_blank" rel="noopener noreferrer" class="btn btn-github">GitHub Repository ↗</a>
+              <a href="#" class="btn btn-primary">Live Demo ↗</a>
+              <a href="https://github.com/fadliwillyandana01-jpg/klaim-obat" target="_blank" rel="noopener noreferrer" class="btn btn-github">Repository ↗</a>
             </div>
           </div>
         </div>
-
-        <div class="project-card">
-          <div class="project-img-wrapper">
-            <div class="img-placeholder">Screenshot Project 2</div>
-          </div>
-          <div class="project-info">
-            <span class="tech-tag">Web & Analytics</span>
-            <h3>Shopee Financial Dashboard</h3>
-            <p>Dashboard internal tracking performa penjualan, potongan biaya administrasi, dan rekonsil keuangan e-commerce.</p>
-            <div class="project-links">
-              <a href="https://github.com/username-kamu/shopee-dashboard" target="_blank" rel="noopener noreferrer" class="btn btn-github">GitHub Repository ↗</a>
-            </div>
-          </div>
-        </div>
-
+        <!-- Project 3: DUMMY TEMPLATE (Untuk Project Selanjutnya) -->
         <div class="project-card">
           <div class="project-img-wrapper">
             <div class="img-placeholder">Screenshot Project 3</div>
           </div>
           <div class="project-info">
-            <span class="tech-tag">System & Network</span>
-            <h3>Network Security Analysis</h3>
-            <p>Studi analisis keamanan jaringan, identifikasi celah serangan (MitM & DoS), serta implementasi pencegahannya.</p>
+            <span class="tech-tag">Kategori / Tech Stack</span>
+            <h3>Nama Project Selanjutnya</h3>
+            <p>Deskripsi singkat mengenai proyek yang dikembangkan, fitur utama, serta teknologi yang digunakan.</p>
             <div class="project-links">
-              <a href="https://github.com/username-kamu/network-security" target="_blank" rel="noopener noreferrer" class="btn btn-github">GitHub Repository ↗</a>
+              <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Live Demo ↗</a>
+              <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-github">Repository ↗</a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- ==========================================================
+         FOOTER (CSS: 7. FOOTER)
+         ========================================================== -->
     <footer>
       <p>&copy; 2026 Portofolio Fadli. All rights reserved.</p>
     </footer>
 
-    <script src="js/main.js?v=6"></script>
+    <!-- Script interaktif halaman (?v=7 = penanda versi, samakan angkanya dengan CSS) -->
+    <script src="js/main.js?v=7"></script>
   </body>
 </html>

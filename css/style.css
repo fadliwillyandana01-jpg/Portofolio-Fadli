@@ -1,8 +1,26 @@
-/* Satu acuan lebar & gutter untuk semua section supaya tepi kartu sejajar */
+/* =========================================================================
+   PORTFOLIO FADLI WILLYANDANA - css/style.css
+   Daftar bagian (cari "n. NAMA BAGIAN" untuk lompat cepat):
+     1. VARIABLES & RESET .......... variabel ukuran & reset gaya default browser
+     2. NAVBAR ..................... navigasi atas + tombol menu HP
+     3. SHARED COMPONENTS & BUTTONS  judul section, tombol, panel kartu
+     4. HERO SECTION ............... bagian Home (judul, deskripsi, foto profil)
+     5. PENGALAMAN ORGANISASI ...... kartu riwayat organisasi
+     6. SKILLS & PROJECTS GRID ..... grid kartu Hard Skills & Project
+     7. FOOTER ..................... teks hak cipta
+     8. RESPONSIVE DESIGN .......... tablet (<=992px) & HP (<=768px)
+     9. REDUCED MOTION ............. matikan animasi bila diminta pengguna
+   Catatan urutan: variabel -> navbar -> komponen bersama -> tiap section (4-7)
+   -> responsif (8) -> aksesibilitas (9). Semua aturan HP dikumpulkan di bagian 8.
+   ========================================================================= */
+
+/* ==========================================
+   1. VARIABLES & RESET
+   ========================================== */
 :root {
   --content-width: 1100px;
   --gutter: 5%;
-  --panel-padding: 2.5rem; /* Padding kiri-kanan kartu .section-panel */
+  --panel-padding: 2.5rem;
 }
 
 * {
@@ -20,26 +38,18 @@ body {
   overflow-x: hidden;
 }
 
-/* ==========================================
-   BACKGROUND POLA HALAMAN
-   Satu layer pola untuk seluruh halaman (sampai bawah), jadi
-   tidak ada ujung pattern yang terlihat "nabrak" di section mana pun
-   ========================================== */
+/* Latar pola gambar full-screen di belakang seluruh konten (HTML: .page-bg) */
 .page-bg {
   position: fixed;
   inset: 0;
-  /* Pakai gambar asli (Bg-Hero-Section.png) */
-  background-image: url('../assets/images/Bg-Hero-Section.png');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  opacity: 0.35; /* Diselaraskan: pola sama lembutnya di seluruh halaman, atas maupun bawah */
+  background: url('../assets/images/Bg-Hero-Section.png') no-repeat center center / cover;
+  opacity: 0.35;
   pointer-events: none;
-  z-index: -1; /* Di belakang semua konten, di atas warna dasar body */
+  z-index: -1;
 }
 
 /* ==========================================
-   NAVIGASI (DESKTOP)
+   2. NAVBAR
    ========================================== */
 .navbar {
   position: fixed;
@@ -47,34 +57,66 @@ body {
   left: 0;
   width: 100%;
   display: flex;
-  /* Logo di kiri - nav link + tombol profil GitHub di kanan */
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  /* Padding kiri-kanan navbar dikembalikan ke 8% seperti semula,
-     supaya logo & tombol profil tidak mepet ujung layar */
   padding: 1rem 8%;
-  background-color: transparent;
+  /* Perbaikan bug kilatan hitam: pakailah rgba dasar + GPU render */
+  background-color: rgba(255, 255, 255, 0);
   border-bottom: 1px solid transparent;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+  will-change: background-color, box-shadow;
   z-index: 1000;
 }
 
-/* Navbar jadi putih semi transparan setelah halaman di-scroll,
-   supaya link tidak bertabrakan dengan konten di belakangnya */
+/* Kondisi navbar setelah di-scroll atau saat menu HP terbuka */
 .navbar.scrolled {
-  background-color: rgba(255, 255, 255, 0.88);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   border-bottom-color: #eeeeee;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
+/* Brand / logo di sisi kiri navbar */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+/* Kotak pembatas logo (logo asli di-zoom & dihitamkan agar terlihat rapi) */
+.nav-logo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 30px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Logo: scale 2.2 untuk memperbesar isi gambar, filter brightness(0) = hitam putih */
+.nav-logo {
+  width: 100%;
+  height: auto;
+  transform: translateY(-2px) scale(2.2);
+  filter: brightness(0);
+}
+
+.nav-brand:hover .nav-logo {
+  opacity: 0.7;
+}
+
+/* Daftar menu (versi desktop; versi HP ada di bagian 8) */
 .nav-links {
   display: flex;
   list-style: none;
   gap: 1.5rem;
-  /* Mendorong navigasi ke sisi kanan navbar, tepat sebelum tombol profil GitHub */
   margin-left: auto;
 }
 
@@ -93,50 +135,13 @@ body {
   background-color: #000000;
 }
 
-/* --- Brand di kiri navbar: logo --- */
-.nav-brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-}
-
-/* Kotak pembungkus logo. File logo asli punya ruang transparan yang lebar,
-   jadi isinya dipotong pakai overflow + scale supaya yang tampil logo saja */
-.nav-logo-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 30px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.nav-logo {
-  display: block;
-  width: 100%;
-  height: auto;
-  /* Dipakai untuk membuang padding transparan di sekeliling logo */
-  transform: translateY(-2px) scale(2.2);
-  /* Warna asli logo nyaris putih (#EAE8E8) sehingga tidak terbaca di navbar;
-     dijadikan hitam mengikuti tema hitam-putih halaman ini.
-     Hapus baris filter ini kalau ingin memakai warna asli logo. */
-  filter: brightness(0);
-}
-
-.nav-brand:hover .nav-logo {
-  opacity: 0.7;
-}
-
-/* --- Tombol menuju profil GitHub di kanan navbar --- */
+/* Area sisi kanan navbar (tempat tombol GitHub) */
 .nav-actions {
   display: flex;
   justify-content: flex-end;
 }
 
-/* Tombol profil GitHub: default hitam, saat di-hover berubah jadi putih
-   (disamakan dengan tombol .btn-primary / .btn-secondary / .btn-github) */
+/* Tombol profil GitHub (hitam, berubah menjadi putih saat di-hover) */
 .nav-profile-btn {
   display: inline-flex;
   align-items: center;
@@ -157,6 +162,7 @@ body {
   color: #000000;
 }
 
+/* Ikon GitHub di dalam tombol (warna mengikuti teks via currentColor) */
 .nav-profile-icon {
   width: 16px;
   height: 16px;
@@ -164,6 +170,7 @@ body {
   flex-shrink: 0;
 }
 
+/* Tombol menu (hamburger). Disembunyikan di desktop, hanya tampil di HP (lihat bagian 8). */
 .menu-toggle {
   display: none;
   flex-direction: column;
@@ -173,20 +180,20 @@ body {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0;
 }
 
+/* 3 garis penyusun ikon hamburger */
 .menu-toggle .bar {
   height: 2px;
   width: 100%;
   background-color: #000000;
   border-radius: 2px;
-  transition: all 0.3s ease;
 }
 
 /* ==========================================
-   SHARED SECTIONS & BUTTONS
+   3. SHARED COMPONENTS & BUTTONS
    ========================================== */
+/* Jarak standar tiap section (dipakai semua section) */
 .section {
   padding: 3.5rem var(--gutter);
 }
@@ -199,6 +206,7 @@ body {
   color: #000000;
 }
 
+/* Garis pendek di bawah judul section (<h2 class="section-title">) */
 .section-title::after {
   content: '';
   display: block;
@@ -208,7 +216,8 @@ body {
   margin: 10px auto 0;
 }
 
-/* Reusable Button Style */
+/* Tombol dasar: dipakai .btn-primary, .btn-secondary, dan .btn-github.
+   Gaya default = hitam, dan berubah jadi putih saat di-hover. */
 .btn {
   display: inline-block;
   padding: 10px 24px;
@@ -218,71 +227,56 @@ body {
   font-size: 0.9rem;
   transition: all 0.3s ease;
   cursor: pointer;
-}
-
-.btn-primary {
   background-color: #000000;
   color: #ffffff;
   border: 1px solid #000000;
 }
 
-.btn-primary:hover {
-  /* Tombol hitam -> jadi putih saat di-hover */
-  background-color: #ffffff;
-  color: #000000;
-}
-
-/* Semua tombol disamakan gayanya: default hitam, hover berubah jadi putih */
-.btn-secondary {
-  background-color: #000000;
-  color: #ffffff;
-  border: 1px solid #000000;
-}
-
+/* Style hover umum untuk tombol biasa & secondary */
+.btn:hover,
 .btn-secondary:hover {
   background-color: #ffffff;
   color: #000000;
-  border-color: #000000;
 }
 
+/* Hover khusus tombol GitHub (Background jadi putih, teks & border gelap) */
+.btn-github:hover {
+  background-color: #ffffff;
+  color: #0d1117;
+  border-color: #0d1117;
+}
+
+/* Hover khusus Live Demo (Background Hijau, Teks Putih) */
+.btn-demo:hover {
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+/* Tombol khusus link GitHub di kartu project */
 .btn-github {
   width: 100%;
   text-align: center;
-  background-color: #000000;
-  color: #ffffff;
-  border: 1px solid #000000;
   font-size: 0.8rem;
 }
 
-.btn-github:hover {
-  /* Tombol hitam -> jadi putih saat di-hover */
-  background-color: #ffffff;
-  color: #000000;
-}
-
-/* ==========================================
-   KARTU WADAH SECTION (HARD SKILLS & PROJECT)
-   Section dibungkus jadi kartu supaya rapi; lebar & posisinya
-   sama persis dengan .hero-card-wrapper
-   ========================================== */
+/* Panel kartu abu-abu pembungkus section Skills & Project.
+   Punya background + shadow sendiri agar isi tetap terbaca di atas pola latar. */
 .section-panel {
   position: relative;
   z-index: 1;
-  /* Lebar & posisi sama persis dengan .hero-card-wrapper agar tepi kartu sejajar */
   width: calc(100% - var(--gutter) * 2);
   max-width: var(--content-width);
-  /* Jarak atas-bawah disamakan dengan jarak antar section supaya iramanya seragam */
   margin: 3.5rem auto;
   padding: 3.5rem var(--panel-padding);
-  background-color: #fafafa; /* Kartu wadah section */
+  background-color: #fafafa;
   border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 24px; /* Samakan bahasa desain dengan .hero-card-wrapper */
+  border-radius: 24px;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
-  scroll-margin-top: 90px; /* Judul tidak ketutup navbar saat link nav diklik */
+  scroll-margin-top: 90px; /* agar judul tidak tertutup navbar saat diklik dari menu */
 }
 
 /* ==========================================
-   HERO SECTION (DESKTOP)
+   4. HERO SECTION
    ========================================== */
 .hero-section {
   position: relative;
@@ -294,33 +288,32 @@ body {
   align-items: center;
 }
 
+/* Kartu putih transparan pembungkus seluruh isi hero */
 .hero-card-wrapper {
   position: relative;
-  z-index: 2; /* Berada di atas gambar background */
+  z-index: 2;
   width: 100%;
   max-width: var(--content-width);
-  /* Kaca tipis: pola background tetap kelihatan, teks tetap terbaca */
   background: rgba(255, 255, 255, 0.35);
   border-radius: 24px;
   padding: 3rem 2.5rem;
   border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
 }
 
 .hero-container {
-  position: relative;
-  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2.5rem;
 }
 
+/* Kolom kiri: teks perkenalan (porsinya lebih lebar dari kolom foto) */
 .hero-text-left {
   flex: 1.2;
 }
 
+/* Judul utama. Teksnya diketik ulang oleh js/main.js (bagian 2) */
 .hero-text-left h1 {
   font-size: 2.3rem;
   font-weight: 800;
@@ -329,6 +322,28 @@ body {
   line-height: 1.25;
 }
 
+/* Kursor berkedip di akhir judul (efek "sedang mengetik") */
+.hero-title::after {
+  content: '|';
+  display: inline-block;
+  margin-left: 4px;
+  font-weight: 300;
+  color: #000000;
+  animation: blinkCursor 0.7s infinite;
+}
+
+/* Animasi kedip kursor */
+@keyframes blinkCursor {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Paragraf deskripsi singkat di bawah judul */
 .hero-text-left p {
   font-size: 0.98rem;
   color: #555555;
@@ -337,70 +352,52 @@ body {
   animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.85s both;
 }
 
-/* ==========================================
-   ANIMASI JUDUL HERO (REVEAL PER HURUF)
-   js/main.js memecah judul jadi per huruf; setiap huruf muncul
-   satu-satu: naik sedikit, membesar, lalu blur-nya hilang.
-   ========================================== */
-.hero-title {
-  --letter-stagger: 30ms; /* Jeda kemunculan antar huruf */
+/* Baris tombol aksi (Lihat Project & Pengalaman), muncul terakhir */
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1s both;
 }
 
-.hero-title-word {
-  display: inline-block;
-  white-space: nowrap; /* Kata tidak terpotong di tengah */
+/* Kolom kanan: foto profil, muncul lebih dulu */
+.hero-card-right {
+  flex: 0.9;
+  display: flex;
+  justify-content: center;
+  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
 
-.hero-title-letter {
-  display: inline-block;
-  animation: letterReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: calc(var(--letter-index, 0) * var(--letter-stagger));
+/* Bingkai foto profil: naik & sedikit membesar saat di-hover */
+.hero-image-box {
+  width: 280px;
+  height: 360px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition:
+    transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
-@keyframes letterReveal {
-  from {
-    opacity: 0;
-    transform: translateY(0.45em) scale(0.94);
-    filter: blur(10px);
-  }
-  55% {
-    opacity: 1;
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
+/* Keadaan saat foto di-hover */
+.hero-image-box:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-/* Garis bawah judul: tumbuh dari kiri setelah huruf terakhir muncul,
-   lalu ada kilau halus yang bergerak (bahasa desain sama dengan .section-title::after) */
-.hero-title::after {
-  content: '';
-  display: block;
-  width: 130px;
-  height: 4px;
-  margin-top: 0.85rem;
-  border-radius: 999px;
-  background-image: linear-gradient(100deg, #000000 0%, #000000 42%, #9c9c9c 52%, #000000 62%, #000000 100%);
-  background-size: 280% 100%;
-  transform: scaleX(0);
-  transform-origin: left center;
-  animation: titleBarGrow 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.05s forwards,
-    titleBarShine 3.2s linear 1.85s infinite;
+/* Foto profil mengisi bingkai dan dipotong rapi dari bagian atas */
+.hero-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 12px;
 }
 
-@keyframes titleBarGrow {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
-@keyframes titleBarShine {
-  from { background-position: 130% 0; }
-  to { background-position: -130% 0; }
-}
-
-/* Elemen hero lain ikut muncul berurutan setelah huruf judul */
+/* Animasi masuk untuk elemen hero: muncul sambil naik sedikit */
 @keyframes heroFadeUp {
   from {
     opacity: 0;
@@ -412,109 +409,63 @@ body {
   }
 }
 
-.hero-cta {
-  display: flex;
-  gap: 1rem;
-  animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1s both;
-}
-
-.hero-card-right {
-  flex: 0.9;
-  display: flex;
-  justify-content: center;
-  animation: heroFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
-}
-
-/* Card Foto Profil & Hover Effect */
-.hero-image-box {
-  width: 280px;
-  height: 360px;
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
-  cursor: pointer;
-}
-
-.hero-image-box:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-.hero-image-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  border-radius: 12px;
-}
-
 /* ==========================================
-   PENGALAMAN ORGANISASI (ZIG-ZAG LAYOUT)
+   5. PENGALAMAN ORGANISASI (CLEAN)
    ========================================== */
+/* Daftar kartu pengalaman, ditumpuk ke bawah */
 .org-gallery {
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
-  /* Lebarnya disamakan dengan container section lain supaya tepinya sejajar */
   max-width: var(--content-width);
   margin: 0 auto;
 }
 
+/* Kartu pengalaman: gambar di kiri, teks di kanan */
 .org-item {
   background: #ffffff;
   padding: 1.8rem;
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   gap: 2rem;
-  align-items: stretch; /* Kolom foto ikut tinggi kartu */
-  min-height: 300px; /* Tinggi semua kartu organisasi jadi seragam */
+  align-items: center; /* center agar gambar tidak ikut ditarik tinggi teks */
 }
 
+/* Kartu varian kedua: gambar pindah ke kanan (HTML: .org-item-reverse) */
 .org-item-reverse {
   flex-direction: row-reverse;
 }
 
+/* Wadah gambar di dalam kartu (kiri/kanan mengikuti urutan kartu) */
 .org-img-box {
-  width: 360px; /* Diperbesar dari 240px agar gambar lebih dominan */
-  max-width: 40%; /* Menjaga batas proporsi terhadap kartu */
-  display: flex; /* Supaya foto bisa mengisi tinggi kartu */
+  width: 280px;
+  max-width: 35%;
   flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #f4f4f5;
 }
 
-.org-img-box img,
-.img-placeholder {
-  width: 100%;
-  height: 100%; /* Mengisi tinggi kartu supaya sejajar antar kartu */
-  object-fit: contain;    /* Memastikan foto tidak gepeng/terdistorsi */
-  object-position: center;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-}
-
-.org-img-box .img-placeholder {
-  position: relative;
-  height: auto; /* Tinggi mengikuti tinggi kartu (stretch dari .org-img-box) */
-  overflow: hidden; /* Foto yang lebih tinggi ikut terpotong rapi */
-}
-
+/* Gambar pengalaman: dipotong rapi (cover) agar seragam tingginya */
 .org-img-box img {
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Foto mengisi kotak tanpa gepeng */
+  max-height: 250px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 12px;
+  display: block;
 }
 
+/* Kotak abu-abu pengganti gambar bila foto belum tersedia */
 .img-placeholder {
+  width: 100%;
+  height: 200px;
   background-color: #f4f4f5;
   border: 1px solid #e4e4e7;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -522,67 +473,72 @@ body {
   color: #71717a;
 }
 
+/* Kolom teks kartu: tahun, jabatan, dan poin deskripsi */
 .org-details {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Teks sejajar tengah terhadap foto */
+  justify-content: center;
 }
 
+/* Periode pengalaman (mis. Des-2025 - Feb-2026) */
 .org-year {
   font-size: 0.78rem;
   font-weight: 700;
   color: #888888;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
+/* Nama organisasi / agenda */
 .org-details h3 {
   font-size: 1.25rem;
   color: #000000;
-  margin: 2px 0 0 0;
 }
 
+/* Jabatan atau peran */
 .org-details h4 {
   font-size: 0.95rem;
   color: #555555;
   margin-bottom: 0.8rem;
 }
 
+/* Daftar poin tugas */
 .org-desc {
   padding-left: 1.4rem;
-  margin: 0;
 }
 
 .org-desc li {
   font-size: 0.9rem;
   color: #444444;
-  line-height: 1.5;
   margin-bottom: 0.3rem;
 }
 
+/* Catatan: aturan tampilan HP untuk kartu pengalaman ada di bagian 8 (RESPONSIVE DESIGN). */
+
 /* ==========================================
-   HARD SKILLS SECTION
+   6. SKILLS & PROJECTS GRID
    ========================================== */
-.skills-grid {
+/* Grid kartu: 3 kolom di desktop, 2 di tablet, 1 di HP (lihat bagian 8) */
+.skills-grid,
+.project-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 kolom sama lebar, seragam dengan .project-grid */
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   max-width: var(--content-width);
   margin: 0 auto;
 }
 
+/* Kartu Hard Skills (section 3 di HTML) */
 .skill-card {
   background: #ffffff;
   padding: 1.8rem;
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Isi kartu rata tengah walau panjang teksnya berbeda */
+  justify-content: center;
 }
 
 .skill-card h3 {
@@ -596,47 +552,34 @@ body {
   color: #666666;
 }
 
-/* ==========================================
-   PROJECT SECTION (3 CARDS SEJAJAR)
-   ========================================== */
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  max-width: var(--content-width);
-  margin: 0 auto;
-}
-
+/* --- Kartu Project (section 4 di HTML) --- */
 .project-card {
   background: #ffffff;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
 }
 
+/* Kartu project naik sedikit saat di-hover */
 .project-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
 }
 
+/* Area gambar project (rasio 16:10). Isinya bisa <img> atau .img-placeholder */
 .project-img-wrapper {
   width: 100%;
-  aspect-ratio: 16 / 10; /* Tinggi seragam & proporsional untuk semua kartu project */
+  aspect-ratio: 16 / 10;
   background-color: #f4f4f5;
 }
 
-.project-img-wrapper .img-placeholder {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-}
-
+/* Bagian teks kartu project (tag, judul, deskripsi, tombol) */
 .project-info {
   padding: 1.2rem;
   display: flex;
@@ -644,6 +587,7 @@ body {
   flex-grow: 1;
 }
 
+/* Label teknologi, mis. "CodeIgniter 4" */
 .tech-tag {
   align-self: flex-start;
   font-size: 0.7rem;
@@ -655,12 +599,14 @@ body {
   margin-bottom: 0.6rem;
 }
 
+/* Judul project */
 .project-info h3 {
   font-size: 1.1rem;
   color: #000000;
   margin-bottom: 0.4rem;
 }
 
+/* Deskripsi project (flex-grow agar tombol GitHub selalu rata bawah) */
 .project-info p {
   font-size: 0.85rem;
   color: #555555;
@@ -669,13 +615,12 @@ body {
 }
 
 /* ==========================================
-   FOOTER & ANIMATION
+   7. FOOTER
    ========================================== */
+/* Teks hak cipta di bagian bawah halaman */
 footer {
   text-align: center;
   padding: 2rem var(--gutter);
-  /* Kaca lembut: nilainya disamakan dengan .hero-card-wrapper (35%)
-     supaya pola di belakang container kaca sama lembutnya & tetap kelihatan */
   background-color: rgba(255, 255, 255, 0.35);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
@@ -685,22 +630,29 @@ footer {
 }
 
 /* ==========================================
-   RESPONSIVE DESIGN: TABLET (Max Width 992px)
+   8. RESPONSIVE DESIGN
+   Dua breakpoint:
+     - <= 992px (tablet): grid jadi 2 kolom, ukuran hero dikecilkan
+     - <= 768px (HP)    : grid jadi 1 kolom, menu navbar jadi tombol hamburger
    ========================================== */
+
+/* ---------- TABLET: lebar <= 992px ---------- */
 @media (max-width: 992px) {
-  .hero-section {
-    padding-top: 78px;
+  /* Padding panel sedikit dirapatkan */
+  :root {
+    --panel-padding: 1.8rem;
   }
 
-  /* Teks hero jadi rata tengah, garis bawah judul ikut ke tengah */
-  .hero-title::after {
-    margin: 0.85rem auto 0;
+  /* --- Hero --- */
+  .hero-section {
+    padding-top: 78px;
   }
 
   .hero-card-wrapper {
     padding: 2.5rem 1.8rem;
   }
 
+  /* Foto pindah ke atas teks (column-reverse) dan rata tengah */
   .hero-container {
     flex-direction: column-reverse;
     text-align: center;
@@ -720,13 +672,10 @@ footer {
     height: 330px;
   }
 
+  /* --- Grid Skills & Project jadi 2 kolom --- */
   .project-grid,
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  :root {
-    --panel-padding: 1.8rem;
   }
 
   .section-panel {
@@ -735,8 +684,7 @@ footer {
     border-radius: 20px;
   }
 
-  /* Navbar versi tablet dibuat lebih rapat supaya brand, nav link,
-     dan tombol profil GitHub tetap muat dalam satu baris */
+  /* --- Navbar: jarak menu dirapatkan agar tidak berdesakan --- */
   .nav-links {
     gap: 0.5rem;
   }
@@ -752,13 +700,9 @@ footer {
   }
 }
 
-/* Coding diatas sini yaa di bawah itu buat tampilan css biar ngga ada merusak tampilan
-Hp/Tablet */
-
-/* ==========================================
-   RESPONSIVE DESIGN: MOBILE (Max Width 768px)
-   ========================================== */
+/* ---------- HP: lebar <= 768px ---------- */
 @media (max-width: 768px) {
+  /* Jarak tepi layar & padding panel lebih kecil */
   :root {
     --gutter: 4%;
     --panel-padding: 1rem;
@@ -768,14 +712,13 @@ Hp/Tablet */
     padding: 2rem var(--gutter);
   }
 
-  /* Navbar Lebih Luas & Hamburger Turun Presisi */
+  /* --- Navbar: lebih pendek & rapat --- */
   .navbar {
     padding: 1.2rem var(--gutter);
     min-height: 60px;
-    justify-content: space-between; /* Brand di kiri, tombol profil di kanan */
   }
 
-  /* Brand digeser sedikit ke kanan supaya tidak bertabrakan dengan ikon hamburger */
+  /* Brand digeser ke kanan agar tidak bertabrakan dengan tombol hamburger */
   .nav-brand {
     margin-left: 42px;
     gap: 8px;
@@ -786,7 +729,7 @@ Hp/Tablet */
     height: 26px;
   }
 
-  /* Di layar HP label teks disembunyikan, tinggal ikon GitHub saja */
+  /* Label tulisan "GitHub" disembunyikan, cukup ikonnya saja */
   .nav-profile-label {
     display: none;
   }
@@ -795,6 +738,7 @@ Hp/Tablet */
     padding: 9px 11px;
   }
 
+  /* Tombol hamburger mulai tampil, dipasang di kiri navbar */
   .menu-toggle {
     display: flex;
     position: absolute;
@@ -803,6 +747,8 @@ Hp/Tablet */
     transform: translateY(-50%);
   }
 
+  /* Menu dijadikan panel di bawah navbar dan disembunyikan dulu (display: none).
+     Panel muncul saat js/main.js menambahkan class .active ke elemen ini. */
   .nav-links {
     position: absolute;
     top: 100%;
@@ -817,13 +763,14 @@ Hp/Tablet */
     display: none;
   }
 
+  /* Kondisi menu terbuka (diatur oleh js/main.js bagian 1) */
   .nav-links.active {
     display: flex;
   }
 
-  /* Kompresi Hero Section Agar Tombol Bawah Terlihat */
+  /* --- Hero: foto & teks dikecilkan --- */
   .hero-section {
-    padding: 82px var(--gutter) 1rem; /* Ditambah karena navbar kini berisi brand + tombol profil */
+    padding: 82px var(--gutter) 1rem;
   }
 
   .hero-card-wrapper {
@@ -845,13 +792,6 @@ Hp/Tablet */
     margin-bottom: 0.4rem;
   }
 
-  /* Garis bawah judul dibuat lebih ringkas di layar HP */
-  .hero-title::after {
-    width: 100px;
-    height: 3px;
-    margin: 0.6rem auto 0;
-  }
-
   .hero-text-left p {
     font-size: 0.88rem;
     margin-bottom: 1rem;
@@ -861,30 +801,39 @@ Hp/Tablet */
     margin-top: 0.5rem;
   }
 
-  /* Layout Organisasi & Proyek */
+  /* --- Pengalaman (section 2): kartu ditumpuk, gambar di atas teks --- */
   .org-item,
   .org-item-reverse {
     flex-direction: column;
     align-items: flex-start;
-    min-height: 0; /* Di mobile tinggi kartu mengikuti isi */
+    padding: 1.2rem;
+    gap: 1.2rem;
+    min-height: 0;
   }
 
   .org-img-box {
     width: 100%;
     max-width: 100%;
-    display: block;
+    height: auto; /* Tinggi mengikuti foto secara alami */
+    background-color: transparent;
   }
 
-  .org-img-box .img-placeholder {
-    height: auto;
-    aspect-ratio: 4 / 3; /* Balik ke rasio asli karena susunan sudah vertikal */
+  /* Foto tampil utuh (tanpa dipotong) mengikuti rasio aslinya */
+  .org-img-box img {
+    width: 100%;
+    height: auto; /* Gambar otomatis 100% utuh mengikuti rasio asli */
+    max-height: none; /* Lepas batasan tinggi agar tidak terpotong */
+    object-fit: contain; /* Menjamin seluruh isi foto tampil utuh tanpa dipotong */
+    border-radius: 12px;
   }
 
+  /* --- Grid Skills & Project jadi 1 kolom --- */
   .project-grid,
   .skills-grid {
     grid-template-columns: 1fr;
   }
 
+  /* Panel paling rapat di HP */
   .section-panel {
     margin: 2rem auto;
     padding: 2rem var(--panel-padding);
@@ -894,21 +843,69 @@ Hp/Tablet */
 }
 
 /* ==========================================
-   HORMATI PREFERENSI "REDUCE MOTION"
-   Kalau pengguna mematikan animasi di sistemnya, seluruh animasi hero
-   dimatikan dan semua elemen langsung tampil dalam keadaan akhir
+   9. REDUCED MOTION (ACCESSIBILITY)
    ========================================== */
+/* Bila pengguna mematikan animasi di pengaturan sistemnya, semua animasi dimatikan
+   (mendukung prefers-reduced-motion; juga dipakai js/main.js bagian 2) */
 @media (prefers-reduced-motion: reduce) {
-  .hero-title-letter,
   .hero-text-left p,
   .hero-cta,
   .hero-card-right {
     animation: none;
   }
 
-  /* Garis bawah tetap terlihat, hanya tanpa animasi tumbuh & kilau */
+  /* Kursor berkedip juga dimatikan */
   .hero-title::after {
-    transform: scaleX(1);
+    display: none;
     animation: none;
   }
+}
+
+/* Mengatur wadah tombol agar berjejer kesamping (side-by-side) */
+.project-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+  width: 100%;
+}
+
+/* Base style untuk semua tombol di project */
+.project-links .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  flex: 1; /* Membuat ukuran tombol sejajar/seimbang */
+  text-align: center;
+}
+
+/* Tombol Live Demo (Default Hijau Solid -> Hover Putih) */
+.btn-primary {
+  background-color: #10b981;
+  color: #ffffff;
+  border: 1px solid #10b981;
+}
+
+.btn-primary:hover {
+  background-color: #ffffff; /* Saat di-hover berubah menjadi putih */
+  color: #10b981; /* Teks berubah jadi hijau */
+  border-color: #10b981;
+}
+
+/* Tombol GitHub / Repository (Default Hitam -> Hover Putih) */
+.btn-github {
+  background-color: #0d1117;
+  color: #ffffff;
+  border: 1px solid #0d1117;
+}
+
+.btn-github:hover {
+  background-color: #ffffff;
+  color: #0d1117;
+  border-color: #0d1117;
 }
