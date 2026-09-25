@@ -15,8 +15,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portofolio - Fadli</title>
+    <!-- FONT POPPINS (Google Fonts). Dipakai seluruh halaman, diatur di CSS bagian
+         1. VARIABLES & RESET. Bobot yang dimuat: 300 (kursor animasi ketik),
+         400 (teks biasa), 500, 600 (navbar & tombol), 700 & 800 (judul). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <!-- ?v=7 = penanda versi (cache buster). Naikkan angkanya setiap kali CSS diubah. -->
-    <link rel="stylesheet" href="css/style.css?v=7" />
+    <link rel="stylesheet" href="css/style.css?v=11" />
   </head>
   <body>
     <!-- BACKGROUND POLA: satu layer untuk seluruh halaman -->
@@ -44,7 +50,7 @@
       <!-- Menu utama. Di HP disembunyikan dulu, muncul setelah tombol menu diklik (class .active). -->
       <ul class="nav-links" id="nav-links">
         <li><a href="#home">Home</a></li>
-        <li><a href="#pengalaman">Pengalaman</a></li>
+        <li><a href="#pengalaman">Experience</a></li>
         <li><a href="#skills">Hard Skills</a></li>
         <li><a href="#project">Project</a></li>
       </ul>
@@ -78,11 +84,17 @@
             <p>
               "Halo, saya Fadli Willyandana. Saya fokus membangun <b> Web Aplikasi</b> yang efisien dan terstruktur dari perancangan sistem dan <b>Database</b>, pengembangan <b> Backend</b>, hingga tampilan <b>Frontend</b> yang responsif."
             </p>
-            <!-- Bagian Hero / Banner Atas -->
-            <div class="hero-buttons">
-              <!-- Ganti class btn-primary jadi btn-secondary / btn-github biar warnanya sama kaya sebelahnya -->
-              <a href="#project" class="btn btn-secondary">Lihat Project</a>
-              <a href="#pengalaman" class="btn btn-secondary">Pengalaman</a>
+            <!-- Bagian Hero / Banner Atas: satu tombol aksi, posisinya
+                 dibuat rata tengah di bawah paragraf (lihat CSS 4. HERO SECTION). -->
+            <div class="hero-cta">
+              <a href="#project" class="btn btn-secondary">
+                <span>View Project</span>
+                <!-- Ikon panah bawah: menandakan tombol scroll ke bawah (ke section Project).
+                     Warna mengikuti teks tombol via currentColor, lihat CSS 4. HERO SECTION. -->
+                <svg class="hero-btn-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                  <path d="M7 2h2v7h4l-5 6-5-6h4V2z" />
+                </svg>
+              </a>
             </div>
           </div>
 
@@ -196,7 +208,9 @@
         <!-- Project 1: C4.5 Sales iPhone -->
         <div class="project-card">
           <div class="project-img-wrapper">
-            <div class="img-placeholder">Screenshot C4.5 iPhone</div>
+            <div class="img-placeholder">
+              <img src="assets/images/Dashboard-Algoritma-C45.png" alt="ini adalah screenshot project Algoritma C4.5 - Sales iPhone" />
+            </div>
           </div>
           <div class="project-info">
             <span class="tech-tag">Data Mining & Algorithm</span>
@@ -250,6 +264,6 @@
     </footer>
 
     <!-- Script interaktif halaman (?v=7 = penanda versi, samakan angkanya dengan CSS) -->
-    <script src="js/main.js?v=7"></script>
+    <script src="js/main.js?v=8"></script>
   </body>
 </html>

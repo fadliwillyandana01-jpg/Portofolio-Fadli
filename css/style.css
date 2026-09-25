@@ -23,11 +23,13 @@
   --panel-padding: 2.5rem;
 }
 
+/* Font utama seluruh halaman: Poppins (di-load dari Google Fonts di index.html).
+   Bila font belum termuat / tanpa internet, otomatis jatuh ke font sistem. */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   scroll-behavior: smooth;
 }
 
@@ -352,11 +354,41 @@ body {
   animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.85s both;
 }
 
-/* Baris tombol aksi (Lihat Project & Pengalaman), muncul terakhir */
+/* Baris tombol aksi hero (tombol "View Project"), muncul terakhir.
+   max-width disamakan dengan lebar paragraf di atasnya (lihat .hero-text-left p)
+   supaya tombol rata tengah tepat di bawah teks, bukan di tengah kolom. */
 .hero-cta {
   display: flex;
+  justify-content: center;
   gap: 1rem;
+  max-width: 480px;
   animation: heroFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1s both;
+}
+
+/* Tombol di hero dibuat lebar penuh (selebar blok 480px) dengan teks + ikon
+   panah yang dipusatkan, supaya seimbang dengan paragraf di atasnya. */
+.hero-cta .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: Center;
+  gap: 10px;
+  width: 50%;
+  padding: 12px 24px;
+  text-align: center;
+}
+
+/* Ikon panah ke bawah di dalam tombol hero (warna ikut currentColor) */
+.hero-btn-icon {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+/* Saat tombol di-hover, panah bergerak turun sedikit sebagai penanda scroll */
+.hero-cta .btn:hover .hero-btn-icon {
+  transform: translateY(4px);
 }
 
 /* Kolom kanan: foto profil, muncul lebih dulu */
@@ -572,11 +604,39 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
 }
 
-/* Area gambar project (rasio 16:10). Isinya bisa <img> atau .img-placeholder */
+/* Area gambar project (rasio 16:10). Isinya bisa <img> atau .img-placeholder.
+   overflow: hidden = gambar yang kebesaran dipotong rapi, tidak "bocor" ke badan kartu
+   (sebelumnya screenshot tampil ter-zoom karena tingginya mengikuti ukuran asli file). */
 .project-img-wrapper {
+  position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
   background-color: #f4f4f5;
+  overflow: hidden;
+}
+
+/* Gambar project selalu di-fit ke area gambar.
+   object-fit: contain = seluruh isi screenshot terlihat utuh (tanpa terpotong).
+   Bila ingin gambar memenuhi penuh area, ganti jadi: object-fit: cover;
+   dan tambahkan object-position: center top; */
+.project-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
+
+/* Placeholder (kartu yang gambarnya belum tersedia) mengikuti tinggi area gambar
+   dan tampil polos tanpa border/radius ganda di dalam kartu project. */
+.project-img-wrapper .img-placeholder {
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  text-align: center;
 }
 
 /* Bagian teks kartu project (tag, judul, deskripsi, tombol) */
@@ -663,8 +723,10 @@ footer {
     margin: 0 auto 1.5rem auto;
   }
 
+  /* Di tablet teks rata tengah, jadi blok tombol juga dipusatkan (margin auto)
+     agar sejajar dengan paragraf di atasnya. */
   .hero-cta {
-    justify-content: center;
+    margin: 0 auto;
   }
 
   .hero-image-box {
@@ -833,6 +895,12 @@ footer {
     grid-template-columns: 1fr;
   }
 
+  /* Kartu project jadi lebar di HP, jadi tinggi area gambarnya dibatasi
+     agar kartu tidak memanjang (rasio 16:10 tetap dipakai selama muat). */
+  .project-img-wrapper {
+    max-height: 250px;
+  }
+
   /* Panel paling rapat di HP */
   .section-panel {
     margin: 2rem auto;
@@ -858,6 +926,15 @@ footer {
   .hero-title::after {
     display: none;
     animation: none;
+  }
+
+  /* Ikon panah pada tombol hero tidak ikut bergerak saat di-hover */
+  .hero-btn-icon {
+    transition: none;
+  }
+
+  .hero-cta .btn:hover .hero-btn-icon {
+    transform: none;
   }
 }
 
