@@ -7,6 +7,8 @@
        SECTION 3: HARD SKILLS  | CSS: 6. SKILLS & PROJECTS GRID
        SECTION 4: PROJECT ...  | CSS: 6. SKILLS & PROJECTS GRID
        FOOTER ............... hak cipta | CSS: 7. FOOTER
+       BAHASA (ID/EN) ....... tombol pilih bahasa dari widget GTranslate
+                              | script di bawah halaman | CSS: 2. NAVBAR & 10
      Pengaturan responsif (tablet/HP) ada di CSS bagian 8, animasi di js/main.js.
      ========================================================================= -->
 <!doctype html>
@@ -21,8 +23,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <!-- ?v=7 = penanda versi (cache buster). Naikkan angkanya setiap kali CSS diubah. -->
-    <link rel="stylesheet" href="css/style.css?v=11" />
+    <!-- ?v=12 = penanda versi (cache buster). Naikkan angkanya setiap kali CSS diubah. -->
+    <link rel="stylesheet" href="css/style.css?v=12" />
   </head>
   <body>
     <!-- BACKGROUND POLA: satu layer untuk seluruh halaman -->
@@ -34,29 +36,55 @@
          dan tombol GitHub (kanan) selalu tampil.
          ========================================================== -->
     <nav class="navbar">
-      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Buka atau tutup menu navigasi">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </button>
 
       <!-- Brand / logo kiri (klik = kembali ke Home) -->
-      <a href="#home" class="nav-brand" aria-label="Fadli Willyandana, kembali ke Home">
+      <a href="#home" class="nav-brand" aria-label="Fadli Willyandana, kembali ke Beranda">
         <span class="nav-logo-box">
           <img src="assets/images/logo-Fadli%20.png" alt="Logo Fadli Willyandana" class="nav-logo" />
         </span>
       </a>
 
       <!-- Menu utama. Di HP disembunyikan dulu, muncul setelah tombol menu diklik (class .active). -->
+      <!-- Teks menu ditulis dalam Bahasa Indonesia karena itu bahasa asli halaman
+           (default_language: 'id'). Versi Inggrisnya dibuat otomatis oleh widget
+           GTranslate, jadi tidak perlu ditulis dua kali. -->
       <ul class="nav-links" id="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#pengalaman">Experience</a></li>
+        <li><a href="#home">Beranda</a></li>
+        <li><a href="#pengalaman">Pengalaman</a></li>
         <li><a href="#skills">Hard Skills</a></li>
-        <li><a href="#project">Project</a></li>
+        <li><a href="#project">Proyek</a></li>
       </ul>
 
-      <!-- Tombol menuju profil GitHub (buka tab baru) -->
+      <!-- ==========================================================
+           PENGATURAN BAHASA (Indonesia / Inggris)
+           Tombol ID / EN di bawah ini adalah pengendali mesin penerjemah
+           GTranslate (scriptnya ada di bagian bawah halaman). Tombol bawaan
+           widget disembunyikan lewat CSS, lalu fungsi window.doGTranslate()
+           yang dipanggil dari js/main.js bagian 3 yang menjalankan terjemahan.
+           Teks halaman diterjemahkan otomatis oleh layanan tersebut, jadi teks
+           baru (mis. kartu project tambahan) tidak perlu didaftarkan manual.
+           ========================================================== -->
       <div class="nav-actions">
+        <div class="lang-switch" role="group" aria-label="Pilih bahasa / Language">
+          <svg class="lang-globe" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="9" />
+            <ellipse cx="12" cy="12" rx="4" ry="9" />
+            <path d="M3 12h18" />
+          </svg>
+          <button type="button" class="lang-btn is-active" data-lang-btn="id" aria-pressed="true" title="Bahasa Indonesia">ID</button>
+          <button type="button" class="lang-btn" data-lang-btn="en" aria-pressed="false" title="English">EN</button>
+        </div>
+
+        <!-- Wadah mesin GTranslate: tombol bawaannya tetap dibuat (lalu
+             disembunyikan) karena elemen itu yang menyimpan bahasa pilihan. -->
+        <div class="gtranslate_wrapper" aria-hidden="true"></div>
+
+        <!-- Tombol menuju profil GitHub (buka tab baru) -->
         <a href="https://github.com/fadliwillyandana01-jpg" target="_blank" rel="noopener noreferrer" class="nav-profile-btn" title="Lihat profil GitHub Fadli Willyandana" aria-label="Buka profil GitHub Fadli Willyandana di tab baru">
           <svg class="nav-profile-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
             <path
@@ -88,7 +116,7 @@
                  dibuat rata tengah di bawah paragraf (lihat CSS 4. HERO SECTION). -->
             <div class="hero-cta">
               <a href="#project" class="btn btn-secondary">
-                <span>View Project</span>
+                <span>Lihat Proyek</span>
                 <!-- Ikon panah bawah: menandakan tombol scroll ke bawah (ke section Project).
                      Warna mengikuti teks tombol via currentColor, lihat CSS 4. HERO SECTION. -->
                 <svg class="hero-btn-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
@@ -114,7 +142,7 @@
          Tambah pengalaman baru dengan menyalin pola <div class="org-item"> di bawah.
          ========================================================== -->
     <section id="pengalaman" class="section">
-      <h2 class="section-title">Experience</h2>
+      <h2 class="section-title">Pengalaman</h2>
       <div class="org-gallery">
         <!-- Item 1: foto di KIRI, teks di kanan -->
         <div class="org-item">
@@ -203,7 +231,7 @@
          Catatan: ganti link "username-kamu/..." dengan URL repository asli.
          ========================================================== -->
     <section id="project" class="section section-panel">
-      <h2 class="section-title">Project</h2>
+      <h2 class="section-title">Proyek</h2>
       <div class="project-grid">
         <!-- Project 1: C4.5 Sales iPhone -->
         <div class="project-card">
@@ -260,10 +288,40 @@
          FOOTER (CSS: 7. FOOTER)
          ========================================================== -->
     <footer>
-      <p>&copy; 2026 Portofolio Fadli. All rights reserved.</p>
+      <p>&copy; 2026 Portofolio Fadli. Semua hak dilindungi.</p>
     </footer>
 
-    <!-- Script interaktif halaman (?v=7 = penanda versi, samakan angkanya dengan CSS) -->
-    <script src="js/main.js?v=8"></script>
+    <!-- Script interaktif halaman (?v=11 = penanda versi, samakan angkanya dengan CSS) -->
+    <script src="js/main.js?v=11"></script>
+
+    <!-- ==========================================================
+         PENGATURAN BAHASA: WIDGET PENERJEMAH OTOMATIS GRATIS (GTRANSLATE)
+         Cara kerjanya:
+           - Tombol pilih bahasa dirender ke dalam .gtranslate_wrapper di
+             navbar (lihat bagian NAVBAR di atas).
+           - Bahasa asli halaman: id. Bahasa untuk pengunjung: id & en.
+           - Teks yang tampil diterjemahkan otomatis oleh layanan GTranslate,
+             jadi isi baru (kartu project, deskripsi, dsb) ikut diterjemahkan
+             tanpa perlu ditulis ulang.
+         Catatan penting: versi gratis ini bekerja di memori browser dan
+         memakai mesin Google Translate di belakang layar, sementara Google
+         menghentikan dukungan widget terjemahan situs pada 1 Oktober 2026.
+         Bila suatu saat tombol bahasa tidak lagi bekerja, pilihannya:
+           1) paket berbayar GTranslate (terjemahan disimpan di server mereka), atau
+           2) membuat sendiri memakai Google Cloud Translation API.
+         ========================================================== -->
+    <script>
+      window.gtranslateSettings = {
+        default_language: 'id',                  // Bahasa asli halaman
+        languages: ['id', 'en'],                 // Bahasa yang bisa dipilih pengunjung
+        wrapper_selector: '.gtranslate_wrapper', // Tempat tombol bahasa dipasang (navbar)
+        horizontal_position: 'inline',           // Tetap di dalam navbar (tidak melayang)
+        select_language_label: 'ID/EN',          // Tulisan tombol bawaan (tampil hanya bila CSS gagal dimuat)
+        native_language_names: true,             // Nama bahasa bawaan widget (versi asli tiap bahasa)
+        detect_browser_language: true,           // Ikut bahasa browser saat kunjungan pertama
+        url_structure: 'none'                    // Gratis: alamat URL halaman tidak berubah
+      };
+    </script>
+    <script src="https://cdn.gtranslate.net/widgets/latest/dropdown.js" defer></script>
   </body>
 </html>

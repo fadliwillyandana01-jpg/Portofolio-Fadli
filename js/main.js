@@ -3,6 +3,8 @@
    Isi file:
      1. NAVBAR ......... tombol menu HP + efek latar navbar saat di-scroll
      2. HERO ........... animasi mengetik pada judul "Full-Stack Web Developer"
+     3. BAHASA ......... tombol ID / EN di navbar yang mengendalikan mesin
+                         penerjemah GTranslate (posisi baca Anda tetap dijaga)
    Semua kode dijalankan setelah HTML siap (event DOMContentLoaded).
    Jika ada error di console, lihat nomor bagian pada komentar di bawah.
    ========================================================================= */
@@ -91,4 +93,244 @@ document.addEventListener('DOMContentLoaded', () => {
 
     typeWriter();
   }
+
+  /* =====================================================================
+     3. PENGATURAN BAHASA: TOMBOL ID / EN (CSS: 2. NAVBAR & 10)
+     Mesin penerjemahnya tetap widget GTranslate (script di index.html), tetapi
+     tombol bawaannya disembunyikan lewat CSS dan diganti tombol ID / EN di navbar.
+     Widget menyediakan fungsi window.doGTranslate("bahasaAsal|bahasaTujuan"),
+     yaitu fungsi yang sama dengan yang dipakai tombol bawaannya:
+       - pilih English  : halaman langsung diterjemahkan (tanpa muat ulang);
+       - pilih Indonesia: catatan bahasa dibersihkan lalu halaman dimuat ulang,
+                          cara paling pasti supaya semua teks kembali aslinya.
+     Teks halaman diterjemahkan otomatis oleh GTranslate, jadi teks baru
+     (mis. kartu project tambahan) TIDAK perlu didaftarkan di bagian ini.
+     ===================================================================== */
+  const PAGE_LANGUAGE = 'id';              // Bahasa asli halaman
+  const LANGUAGE_CODES = ['id', 'en'];     // Bahasa yang bisa dipilih pengunjung
+  const LANG_STORAGE_KEY = 'fadli-portfolio-lang'; // Catatan pilihan milik kita
+  const langButtons = document.querySelectorAll('[data-lang-btn]');
+
+  // Setelah tombol diklik, mesin terjemahan butuh waktu sebentar. Selama itu
+  // pengecekan otomatis di bawah diberi jeda supaya tombol tidak "berkedip".
+  let pauseButtonSyncUntil = 0;
+
+  // Catatan bahasa milik widget GTranslate di localStorage. Nama kuncinya tidak
+  // ditulis langsung (bisa berubah di versi baru), cukup dikenali dari isinya
+  // yang berbentuk {"srcLang":"id","tgtLang":"en"}.
+  const readWidgetLanguage = () => {
+    try {
+      const keys = Object.keys(window.localStorage);
+      for (let i = 0; i < keys.length; i += 1) {
+        const value = window.localStorage.getItem(keys[i]) || '';
+        const found = value.match(/"tgtLang"\s*:\s*"([a-zA-Z-]+)"/);
+        if (found) return found[1].slice(0, 2).toLowerCase();
+      }
+    } catch (error) {
+      // localStorage bisa diblokir (mis. mode privat): abaikan saja.
+    }
+    return '';
+  };
+
+  // Pilihan bahasa yang kita simpan sendiri saat tombol ID / EN diklik.
+  const readSavedLanguage = () => {
+    try {
+      const saved = window.localStorage.getItem(LANG_STORAGE_KEY);
+      return LANGUAGE_CODES.indexOf(saved) !== -1 ? saved : '';
+    } catch (error) {
+      return '';
+    }
+  };
+
+  // Bahasa yang paling mungkin sedang tampil, diambil berurutan dari:
+  // (1) atribut lang di <html> yang diisi mesin GTranslate saat menerjemahkan,
+  // (2) pilihan yang kita simpan sendiri,
+  // (3) catatan bahasa milik widget.
+  const readActiveLanguage = () => {
+    const htmlLang = (document.documentElement.getAttribute('lang') || '').slice(0, 2).toLowerCase();
+    const candidates = [htmlLang, readSavedLanguage(), readWidgetLanguage()];
+    for (let i = 0; i < candidates.length; i += 1) {
+      const code = candidates[i];
+      if (code && code !== PAGE_LANGUAGE && LANGUAGE_CODES.indexOf(code) !== -1) return code;
+    }
+    return PAGE_LANGUAGE;
+  };
+
+  // Tandai tombol bahasa yang sedang dipakai (aria-pressed dibaca pembaca layar).
+  const markActiveLanguage = (lang) => {
+    langButtons.forEach((btn) => {
+      const isActive = btn.getAttribute('data-lang-btn') === lang;
+      btn.classList.toggle('is-active', isActive);
+      btn.setAttribute('aria-pressed', String(isActive));
+    });
+  };
+
+  // Hapus catatan bahasa (milik kita & milik widget) supaya halaman berikutnya
+  // tampil dalam bahasa asli.
+  const clearLanguageMemory = () => {
+    try {
+      window.localStorage.removeItem(LANG_STORAGE_KEY);
+      Object.keys(window.localStorage).forEach((key) => {
+        const value = window.localStorage.getItem(key) || '';
+        if (value.indexOf('"tgtLang"') !== -1) window.localStorage.removeItem(key);
+      });
+    } catch (error) {
+      // Diabaikan bila localStorage tidak tersedia.
+    }
+  };
+
+  /* ---------------------------------------------------------------------
+     Posisi baca dijaga: mengganti bahasa membuat panjang teks berubah, sehingga
+     peramban bisa menggeser tampilan (melompat ke atas maupun ke bawah). Karena
+     itu posisi scroll diingat sebentar, lalu dikembalikan dengan animasi halus.
+     --------------------------------------------------------------------- */
+  const SCROLL_MEMO_KEY = 'fadli-scroll-y';
+
+  // Penanda waktu untuk membedakan gulir yang dilakukan pengunjung sendiri
+  // dengan gulir otomatis milik script ini (supaya tidak saling menimpa).
+  let visitorScrolledAt = 0;
+  let ourScrollUntil = 0;
+
+  window.addEventListener('scroll', () => {
+    if (Date.now() > ourScrollUntil) visitorScrolledAt = Date.now();
+  });
+
+  // Simpan posisi baca saat ini.
+  const rememberScrollPosition = () => {
+    try {
+      window.sessionStorage.setItem(SCROLL_MEMO_KEY, String(Math.round(window.scrollY || 0)));
+    } catch (error) {
+      // Diabaikan bila sessionStorage tidak tersedia.
+    }
+  };
+
+  // Ambil posisi tersimpan lalu hapus catatannya (dipakai sekali saja).
+  const takeScrollPosition = () => {
+    try {
+      const saved = window.sessionStorage.getItem(SCROLL_MEMO_KEY);
+      if (saved === null) return null;
+      window.sessionStorage.removeItem(SCROLL_MEMO_KEY);
+      const position = parseInt(saved, 10);
+      return isNaN(position) ? null : position;
+    } catch (error) {
+      return null;
+    }
+  };
+
+  // Pindah ke posisi baca tertentu. smooth = true membuat perpindahannya halus;
+  // peramban lawas yang belum mendukung opsi tersebut otomatis memakai cara biasa.
+  const goToScrollPosition = (position, smooth) => {
+    ourScrollUntil = Date.now() + 600; // sebentar, gulir ini milik script
+    if (smooth) {
+      try {
+        window.scrollTo({ top: position, behavior: 'smooth' });
+        return;
+      } catch (error) {
+        // Lanjut ke cara biasa di bawah.
+      }
+    }
+    window.scrollTo(0, position);
+  };
+
+  // Dipanggil saat halaman dibuka (kasus tombol ID): kembalikan posisi baca
+  // sebelumnya, bukan melompat ke section dari tautan lama atau ke paling atas.
+  const restoreScrollAfterLoad = () => {
+    const position = takeScrollPosition();
+    if (position === null) return;
+
+    // Pemulihan posisi bawaan peramban dimatikan supaya tidak menimpa posisi kita.
+    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+    window.scrollTo(0, position);                                          // sebelum halaman terlihat
+    window.addEventListener('load', () => window.scrollTo(0, position));   // setelah gambar/font termuat
+  };
+
+  restoreScrollAfterLoad();
+
+  // Buka ulang halaman dalam bahasa asli dengan aman:
+  // - posisi baca diingat lebih dulu supaya bisa dikembalikan setelah halaman terbuka;
+  // - bagian #section dibuang dari alamat memakai history.replaceState (tidak
+  //   memicu navigasi apa pun) agar peramban tidak melompat ke section terakhir;
+  // - lalu halaman dimuat ulang dari awal (bukan navigasi fragmen).
+  const reopenPageKeepingPosition = () => {
+    rememberScrollPosition();
+
+    try {
+      if (window.location.hash) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    } catch (error) {
+      // Diabaikan bila URL tidak boleh diubah.
+    }
+
+    window.location.reload();
+  };
+
+  // Ganti bahasa halaman memakai mesin GTranslate.
+  const changeLanguage = (lang, attempt) => {
+    const tries = attempt || 0;
+    pauseButtonSyncUntil = Date.now() + 2500; // Tahan pengecekan otomatis sebentar
+    markActiveLanguage(lang);
+
+    // Script widget dimuat dari internet, jadi bisa belum siap saat tombol diklik.
+    if (typeof window.doGTranslate !== 'function') {
+      if (tries < 12) {
+        window.setTimeout(() => changeLanguage(lang, tries + 1), 250);
+        return;
+      }
+      console.warn('[Bahasa] Mesin terjemahan GTranslate belum siap (script gagal dimuat atau diblokir).');
+      pauseButtonSyncUntil = 0;
+      markActiveLanguage(readActiveLanguage());
+      return;
+    }
+
+    // Kembali ke bahasa asli: bersihkan catatan bahasa lalu buka ulang halaman
+    // (cara paling pasti supaya semua teks kembali aslinya). Posisi baca yang
+    // sedang dibuka diingat dulu, jadi setelah halaman terbuka pengunjung tetap
+    // berada di bagian yang sama (tidak melompat ke atas/bawah).
+    if (lang === PAGE_LANGUAGE) {
+      clearLanguageMemory();
+      reopenPageKeepingPosition();
+      return;
+    }
+
+    // Pindah ke bahasa lain: terjemahkan langsung tanpa memuat ulang halaman.
+    // Ingat pilihannya & posisi bacanya lebih dulu, lalu kembalikan posisi itu
+    // beberapa kali (dengan animasi halus) karena proses terjemahan mengubah
+    // panjang teks halaman beberapa saat setelah tombol diklik.
+    try {
+      window.localStorage.setItem(LANG_STORAGE_KEY, lang);
+    } catch (error) {
+      // Diabaikan bila localStorage tidak tersedia.
+    }
+
+    const readingPosition = Math.round(window.scrollY || 0);
+    const requestedAt = Date.now();
+    window.doGTranslate(`${PAGE_LANGUAGE}|${lang}`);
+
+    [150, 700, 1300].forEach((delay) => {
+      window.setTimeout(() => {
+        // Lewati bila pengunjung sudah menggulir sendiri: jangan ditarik balik.
+        if (visitorScrolledAt > requestedAt) return;
+        goToScrollPosition(readingPosition, true);
+      }, delay);
+    });
+  };
+
+  // Klik tombol ID / EN di navbar.
+  langButtons.forEach((btn) => {
+    btn.addEventListener('click', () => changeLanguage(btn.getAttribute('data-lang-btn')));
+  });
+
+  // Samakan tampilan tombol dengan bahasa yang benar-benar tampil. Diperiksa
+  // berkala selama ~6 detik pertama, karena terjemahan otomatis "ikut bahasa
+  // browser" dari widget berjalan beberapa saat setelah halaman terbuka.
+  let languageCheckCount = 0;
+  const syncLanguageButtons = () => {
+    if (Date.now() >= pauseButtonSyncUntil) markActiveLanguage(readActiveLanguage());
+    if (languageCheckCount >= 20) return;
+    languageCheckCount += 1;
+    window.setTimeout(syncLanguageButtons, 300);
+  };
+
+  syncLanguageButtons();
 });

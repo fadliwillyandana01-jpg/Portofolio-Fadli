@@ -2,7 +2,7 @@
    PORTFOLIO FADLI WILLYANDANA - css/style.css
    Daftar bagian (cari "n. NAMA BAGIAN" untuk lompat cepat):
      1. VARIABLES & RESET .......... variabel ukuran & reset gaya default browser
-     2. NAVBAR ..................... navigasi atas + tombol menu HP
+     2. NAVBAR ..................... navigasi atas + tombol bahasa ID/EN + tombol menu HP
      3. SHARED COMPONENTS & BUTTONS  judul section, tombol, panel kartu
      4. HERO SECTION ............... bagian Home (judul, deskripsi, foto profil)
      5. PENGALAMAN ORGANISASI ...... kartu riwayat organisasi
@@ -10,6 +10,7 @@
      7. FOOTER ..................... teks hak cipta
      8. RESPONSIVE DESIGN .......... tablet (<=992px) & HP (<=768px)
      9. REDUCED MOTION ............. matikan animasi bila diminta pengguna
+    10. PENGATURAN BAHASA (GTRANSLATE)  gaya tombol bahasa & bersih-bersih UI Google
    Catatan urutan: variabel -> navbar -> komponen bersama -> tiap section (4-7)
    -> responsif (8) -> aksesibilitas (9). Semua aturan HP dikumpulkan di bagian 8.
    ========================================================================= */
@@ -170,6 +171,105 @@ body {
   height: 16px;
   fill: currentColor;
   flex-shrink: 0;
+}
+
+/* --- PENGATURAN BAHASA (ID / EN) ---
+   Tombol pilih bahasa bergaya "segmented pill": satu wadah putih membulat berisi
+   ikon globe dan dua tombol (ID / EN). Tombol yang sedang aktif berwarna hitam.
+   Tombol bawaan widget GTranslate (.gtranslate_wrapper) disembunyikan di bawah
+   karena tampilannya diganti; elemennya tetap ada agar widget masih bisa
+   menyimpan bahasa pilihan. Logika tombolnya ada di js/main.js bagian 3. */
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-right: 10px;
+  padding: 3px 4px 3px 8px;
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Saat kursor mendekat, garis tepi menegas dan bayangannya sedikit naik */
+.lang-switch:hover {
+  border-color: #000000;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+/* Ikon globe kecil sebagai penanda "pengaturan bahasa" (garis ikut currentColor) */
+.lang-globe {
+  width: 13px;
+  height: 13px;
+  margin-right: 2px;
+  fill: none;
+  stroke: #666666;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  transition: stroke 0.3s ease;
+}
+
+.lang-switch:hover .lang-globe {
+  stroke: #000000;
+}
+
+/* Tombol bahasa: tidak aktif = teks abu-abu, aktif = pil hitam */
+.lang-btn {
+  border: none;
+  background-color: transparent;
+  color: #666666;
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  line-height: 1;
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.2s ease;
+}
+
+.lang-btn:hover {
+  color: #000000;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+/* Efek "ditekan" saat tombol diklik */
+.lang-btn:active {
+  transform: scale(0.94);
+}
+
+/* Penanda fokus untuk pengguna keyboard */
+.lang-btn:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 2px;
+}
+
+/* Tombol bahasa yang sedang dipakai (class ditambah js/main.js bagian 3) */
+.lang-btn.is-active,
+.lang-btn.is-active:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Wadah tombol bawaan GTranslate disembunyikan, tetapi tetap dirender
+   (bukan display:none) supaya widget tidak kehilangan acuan elemennya.
+   visibility:hidden dipakai agar isinya tidak bisa dijangkau tombol Tab;
+   kontrol bahasa untuk pengunjung adalah tombol .lang-switch di atas. */
+.gtranslate_wrapper {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* Tombol menu (hamburger). Disembunyikan di desktop, hanya tampil di HP (lihat bagian 8). */
@@ -760,6 +860,21 @@ footer {
     padding: 8px 12px;
     font-size: 0.8rem;
   }
+
+  /* Tombol bahasa dirapatkan agar menu navigasi tetap muat */
+  .lang-switch {
+    margin-right: 8px;
+  }
+
+  .lang-globe {
+    width: 12px;
+    height: 12px;
+  }
+
+  .lang-btn {
+    padding: 6px 8px;
+    font-size: 0.7rem;
+  }
 }
 
 /* ---------- HP: lebar <= 768px ---------- */
@@ -798,6 +913,23 @@ footer {
 
   .nav-profile-btn {
     padding: 9px 11px;
+  }
+
+  /* Tombol bahasa paling ringkas di HP */
+  .lang-switch {
+    margin-right: 8px;
+    padding: 2px 3px 2px 7px;
+  }
+
+  .lang-globe {
+    width: 11px;
+    height: 11px;
+    margin-right: 0;
+  }
+
+  .lang-btn {
+    padding: 5px 8px;
+    font-size: 0.68rem;
   }
 
   /* Tombol hamburger mulai tampil, dipasang di kiri navbar */
@@ -986,3 +1118,39 @@ footer {
   color: #0d1117;
   border-color: #0d1117;
 }
+
+/* ==========================================
+   10. PENGATURAN BAHASA (GTRANSLATE)
+   Tombol pilih bahasanya dibuat oleh widget GTranslate (CSS bagian 2).
+   Karena versi gratis layanan ini memakai mesin Google Translate di belakang
+   layar, ada beberapa elemen bawaan Google yang perlu disembunyikan agar tidak
+   mengganggu desain halaman.
+   ========================================== */
+
+/* Banner "Diterjemahkan oleh Google" di bagian atas halaman */
+.goog-te-banner-frame,
+iframe.goog-te-banner-frame {
+  display: none !important;
+}
+
+/* Google menggeser <body> turun 40px saat banner itu tampil: kunci kembali ke 0 */
+body {
+  top: 0 !important;
+}
+
+/* Balon bantuan & sorotan kuning bawaan Google Translate */
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* Catatan: wadah mesin terjemahan yang tersembunyi sengaja TIDAK disembunyikan
+   lagi (mis. lewat display:none) karena dipakai untuk menjalankan proses
+   terjemahan oleh layanan GTranslate. */
