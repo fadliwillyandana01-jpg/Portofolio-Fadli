@@ -20,6 +20,10 @@
    ========================================== */
 :root {
   --content-width: 1100px;
+  /* Lebar khusus panel section Proyek (class .section-panel--wide). Dibuat lebih
+     lebar dari panel lain supaya kartu project + gambar screenshot di dalamnya
+     tampil lebih besar dan lebih jelas. */
+  --content-width-wide: 1320px;
   --gutter: 5%;
   --panel-padding: 2.5rem;
 }
@@ -377,6 +381,14 @@ body {
   scroll-margin-top: 90px; /* agar judul tidak tertutup navbar saat diklik dari menu */
 }
 
+/* Panel yang lebih lebar (dipakai khusus section Proyek) agar kartu project
+   beserta gambar screenshot di dalamnya tampil lebih besar.
+   Dipasang di HTML: <section id="project" class="section section-panel section-panel--wide">.
+   Hapus class "section-panel--wide" di HTML bila ingin kembali selebar --content-width. */
+.section-panel--wide {
+  max-width: var(--content-width-wide);
+}
+
 /* ==========================================
    4. HERO SECTION
    ========================================== */
@@ -660,6 +672,12 @@ body {
   margin: 0 auto;
 }
 
+/* Grid project di dalam panel lebar (section Proyek) boleh memakai lebar panel
+   penuh, supaya tiap kartu + gambar screenshot-nya ikut membesar. */
+.section-panel--wide .project-grid {
+  max-width: 100%;
+}
+
 /* Kartu Hard Skills (section 3 di HTML) */
 .skill-card {
   background: #ffffff;
@@ -704,27 +722,34 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
 }
 
-/* Area gambar project (rasio 16:10). Isinya bisa <img> atau .img-placeholder.
-   overflow: hidden = gambar yang kebesaran dipotong rapi, tidak "bocor" ke badan kartu
-   (sebelumnya screenshot tampil ter-zoom karena tingginya mengikuti ukuran asli file). */
+/* Area gambar project. Rasio 22:10 sengaja dipakai karena mengikuti bentuk asli
+   file screenshot project (1918x868 / 1600x732 / 1600x735 px = sekitar 2,2:1).
+   Sebelumnya 16:10 (1,6:1), sehingga screenshot yang jauh lebih lebar tampil
+   menyusut di tengah dan menyisakan pita abu-abu kosong di atas & bawah —
+   itulah sebabnya foto terlihat kecil di dalam kartu.
+   overflow: hidden = gambar yang kebesaran dipotong rapi, tidak "bocor" ke badan kartu. */
 .project-img-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 22 / 10;
   background-color: #f4f4f5;
   overflow: hidden;
 }
 
-/* Gambar project selalu di-fit ke area gambar.
-   object-fit: contain = seluruh isi screenshot terlihat utuh (tanpa terpotong).
-   Bila ingin gambar memenuhi penuh area, ganti jadi: object-fit: cover;
-   dan tambahkan object-position: center top; */
+/* Gambar project dipaksa memenuhi SELURUH area gambar (object-fit: cover) supaya
+   tidak ada bagian area yang kosong. Karena rasio area (22:10) sudah mengikuti
+   bentuk screenshot, pemotongan yang terjadi praktis nol (di bawah 1%).
+   object-position: center top = bila nanti ditambahkan gambar dengan rasio lain
+   yang lebih tinggi, bagian atas gambar (header/dashboard) tetap tampil.
+   Bila ingin seluruh isi gambar selalu terlihat utuh (walau ada sisa ruang),
+   ganti kembali object-fit menjadi: contain. */
 .project-img-wrapper img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: center;
+  object-fit: cover;
+  object-position: center top;
   display: block;
+  cursor: zoom-in; /* penanda bahwa gambar bisa diklik untuk diperbesar (lihat bagian bawah) */
 }
 
 /* Placeholder (kartu yang gambarnya belum tersedia) mengikuti tinggi area gambar
@@ -772,6 +797,78 @@ body {
   color: #555555;
   margin-bottom: 1rem;
   flex-grow: 1;
+}
+
+/* --- Pratinjau gambar project (klik gambar = tampil besar) ---
+   Screenshot dashboard berisi tulisan kecil, jadi di dalam kartu gambarnya bisa
+   diklik untuk dibuka dalam ukuran besar. Elemen .img-zoom di bawah ini dibuat
+   otomatis oleh js/main.js bagian 4, jadi HTML kartu project tidak perlu diubah
+   walau jumlah project bertambah. */
+.img-zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 2000; /* di atas navbar (z-index 1000) */
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 4vmin;
+  background-color: rgba(0, 0, 0, 0.82);
+}
+
+/* Kondisi terbuka (class .is-open ditambah js/main.js bagian 4) */
+.img-zoom.is-open {
+  display: flex;
+}
+
+/* Gambar ukuran besar: selalu muat di layar & tidak terpotong (contain) */
+.img-zoom img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* Tombol tutup di sudut kanan atas */
+.img-zoom-close {
+  position: absolute;
+  top: 2vmin;
+  right: 2.5vmin;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.img-zoom-close:hover {
+  background-color: #ffffff;
+  color: #111111;
+}
+
+/* Penanda fokus untuk pengguna keyboard */
+.img-zoom-close:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* Halaman dikunci (tidak ikut ter-scroll) selama pratinjau terbuka.
+   Class ini dipasang/dihapus di <body> oleh js/main.js bagian 4. */
+body.img-zoom-open {
+  overflow: hidden;
 }
 
 /* ==========================================
@@ -1027,11 +1124,9 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  /* Kartu project jadi lebar di HP, jadi tinggi area gambarnya dibatasi
-     agar kartu tidak memanjang (rasio 16:10 tetap dipakai selama muat). */
-  .project-img-wrapper {
-    max-height: 250px;
-  }
+  /* Catatan: batas tinggi area gambar project (max-height) tidak dipakai lagi
+     karena rasio 22:10 sudah pipih — tinggi area gambar hanya sekitar 45% lebar
+     kartu, jadi kartu tidak akan memanjang walau gambarnya selebar kartu. */
 
   /* Panel paling rapat di HP */
   .section-panel {
@@ -1070,27 +1165,44 @@ footer {
   }
 }
 
-/* Mengatur wadah tombol agar berjejer kesamping (side-by-side) */
+/* Wadah tombol kartu project.
+   flex-wrap: wrap = tombol berjejer ke samping selama masih muat, lalu otomatis
+   TURUN ke baris berikutnya (selebar kartu) bila labelnya panjang atau kartunya
+   sempit. Dengan begitu tulisan dan tanda panahnya tidak pernah terpotong jadi
+   dua baris (dulu: "Demo Langsung ↗" pecah menjadi "Demo" / "Langsung ↗"). */
 .project-links {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: 15px;
   width: 100%;
 }
 
-/* Base style untuk semua tombol di project */
+/* Base style untuk semua tombol di project.
+   - flex: 1 1 auto  : lebar mengikuti panjang tulisannya, lalu sisa ruang baris
+                       dibagi rata ke tombol-tombol yang ada di baris itu;
+   - min-width: 44%  : tombol yang tulisannya pendek tidak jadi terlalu kecil,
+                       jadi pasangan tombol tetap terlihat seimbang;
+   - width: auto     : menetralkan width: 100% milik .btn-github (tanpa ini,
+                       basis tombol = 100% sehingga tombol selalu turun baris);
+   - white-space: nowrap : tulisan + tanda panah selalu satu baris. */
 .project-links .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 18px;
-  font-size: 14px;
+  flex: 1 1 auto;
+  min-width: 44%;
+  max-width: 100%;
+  width: auto;
+  padding: 13px 14px;
+  font-size: 0.8rem;
+  line-height: 1.2;
   font-weight: 600;
   border-radius: 6px;
   text-decoration: none;
   transition: all 0.3s ease;
-  flex: 1; /* Membuat ukuran tombol sejajar/seimbang */
   text-align: center;
+  white-space: nowrap;
 }
 
 /* Tombol Live Demo (Default Hijau Soft/Sage -> Hover Putih) */

@@ -23,8 +23,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <!-- ?v=12 = penanda versi (cache buster). Naikkan angkanya setiap kali CSS diubah. -->
-    <link rel="stylesheet" href="css/style.css?v=12" />
+    <!-- ?v=14 = penanda versi (cache buster). Naikkan angkanya setiap kali CSS diubah. -->
+    <link rel="stylesheet" href="css/style.css?v=14" />
   </head>
   <body>
     <!-- BACKGROUND POLA: satu layer untuk seluruh halaman -->
@@ -153,7 +153,7 @@
           </div>
           <div class="org-details">
             <span class="org-year">Des-2025 - Feb-2026</span>
-            <h3>Kolaborun Fun Run 2025</h3>
+            <h3>Kolaborun Fun Run 2026</h3>
             <h4>Koordinator Divisi Marshall</h4>
             <ul class="org-desc">
               <li>Mengoordinasikan tim marshal serta menganalisis layout lintasan untuk memastikan keamanan dan kelancaran acara.</li>
@@ -228,9 +228,19 @@
     <!-- ==========================================================
          SECTION 4: PROJECT (CSS: 6. SKILLS & PROJECTS GRID)
          Tiap kartu: area gambar, tag teknologi, judul, deskripsi, link GitHub.
+         Panel section ini memakai class tambahan "section-panel--wide" agar
+         kartunya (dan gambar screenshot di dalamnya) tampil lebih besar —
+         ukuran lebar panelnya diatur di variabel --content-width-wide (CSS bagian 1).
+         Penting soal bahasa: label tombol ditulis dalam Bahasa Indonesia (bahasa
+         asli halaman) supaya mesin GTranslate menerjemahkannya dengan benar saat
+         pengunjung memilih EN — mis. "Demo Langsung" -> "Live Demo",
+         "Repositori" -> "Repository", "Pratinjau" -> "Preview".
+         Teks yang sudah berbahasa Inggris justru "diterjemahkan" ulang oleh mesin
+         Google dan hasilnya rancu, mis. "Repository" -> "Repositories",
+         "Document" -> "Documents" (jadi bentuk jamak).
          Catatan: ganti link "username-kamu/..." dengan URL repository asli.
          ========================================================== -->
-    <section id="project" class="section section-panel">
+    <section id="project" class="section section-panel section-panel--wide">
       <h2 class="section-title">Proyek</h2>
       <div class="project-grid">
         <!-- Project 1: C4.5 Sales iPhone -->
@@ -243,10 +253,11 @@
           <div class="project-info">
             <span class="tech-tag">Data Mining & Algorithm</span>
             <h3>Algoritma C4.5 - Sales iPhone</h3>
-            <p>Aplikasi analisis data mining menggunakan Algoritma C4.5 (Decision Tree) untuk memprediksi dan menganalisis pola keputusan penjualan iPhone.</p>
+            <p>Aplikasi analisis data mining berbasis web untuk memprediksi pola keputusan penjualan iPhone menggunakan Algoritma C4.5 (
+              Decision Tree), dibangun menggunakan HTML, CSS, dan JavaScript.</p>
             <div class="project-links">
-              <a href="https://fadliwillyandana01-jpg.github.io/Project-Data-Mining-AlgoritmaC45-Sales-Iphone/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Live Demo ↗</a>
-              <a href="https://github.com/fadliwillyandana01-jpg/Project-Data-Mining-AlgoritmaC45-Sales-Iphone" target="_blank" rel="noopener noreferrer" class="btn btn-github">Repository ↗</a>
+              <a href="https://fadliwillyandana01-jpg.github.io/Project-Data-Mining-AlgoritmaC45-Sales-Iphone/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Demo Langsung ↗</a>
+              <a href="https://github.com/fadliwillyandana01-jpg/Project-Data-Mining-AlgoritmaC45-Sales-Iphone" target="_blank" rel="noopener noreferrer" class="btn btn-github">Repositori ↗</a>
             </div>
           </div>
         </div>
@@ -254,30 +265,35 @@
         <!-- Card 2: KlaimObat System -->
         <div class="project-card">
           <div class="project-img-wrapper">
-            <div class="img-placeholder">Screenshot KlaimObat</div>
+            <div class="img-placeholder">
+              <img src="assets/images/Web-App-KLaim-Obat.jpeg" alt="Foto Daashboard admin klaim obat">
+            </div>
           </div>
           <div class="project-info">
             <span class="tech-tag">CodeIgniter 4</span>
             <h3>KlaimObat System</h3>
-            <p>Sistem pengajuan klaim medis berbasis web dengan alur multi-level approval untuk Pegawai, HRD, dan Finance.</p>
+            <p>Sistem pengajuan klaim medis berbasis web dengan alur multi-level approval untuk Karyawan, HRD, dan Finance, serta manajemen pengguna oleh Admin.</p>
             <div class="project-links">
-              <a href="#" class="btn btn-primary">Live Demo ↗</a>
-              <a href="https://github.com/fadliwillyandana01-jpg/klaim-obat" target="_blank" rel="noopener noreferrer" class="btn btn-github">Repository ↗</a>
+              <a href="#" class="btn btn-primary">Pratinjau ↗</a>
+              <a href="https://github.com/fadliwillyandana01-jpg/Web-App-Klaim-Obat" target="_blank" rel="noopener noreferrer" class="btn btn-github">Repositori ↗</a>
             </div>
           </div>
         </div>
         <!-- Project 3: DUMMY TEMPLATE (Untuk Project Selanjutnya) -->
         <div class="project-card">
           <div class="project-img-wrapper">
-            <div class="img-placeholder">Screenshot Project 3</div>
+            <div class="img-placeholder">
+              <img src="assets/images/Profile-LP3I-Jakarta-Kampus-depok.jpeg" alt="Foto Dashboard Website Profil LP3I Depok">
+            </div>
           </div>
           <div class="project-info">
-            <span class="tech-tag">Kategori / Tech Stack</span>
-            <h3>Nama Project Selanjutnya</h3>
-            <p>Deskripsi singkat mengenai proyek yang dikembangkan, fitur utama, serta teknologi yang digunakan.</p>
+            <span class="tech-tag">WordPress</span>
+            <h3>Website Profil LP3I Depok</h3>
+            <p>Website profil resmi LP3I Jakarta Kampus Depok berbasis WordPress yang memuat informasi program studi, 
+              pendaftaran mahasiswa baru (PMB), fasilitas, dan kontak kampus.</p>
             <div class="project-links">
-              <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Live Demo ↗</a>
-              <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-github">Repository ↗</a>
+              <a href="https://fadliwillyandana.neofora.site/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Demo Langsung ↗</a>
+              <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-github">Dokumentasi ↗</a>
             </div>
           </div>
         </div>
@@ -291,8 +307,8 @@
       <p>&copy; 2026 Portofolio Fadli. Semua hak dilindungi.</p>
     </footer>
 
-    <!-- Script interaktif halaman (?v=11 = penanda versi, samakan angkanya dengan CSS) -->
-    <script src="js/main.js?v=11"></script>
+    <!-- Script interaktif halaman (?v=13 = penanda versi; naikkan angkanya setiap kali JS diubah) -->
+    <script src="js/main.js?v=13"></script>
 
     <!-- ==========================================================
          PENGATURAN BAHASA: WIDGET PENERJEMAH OTOMATIS GRATIS (GTRANSLATE)

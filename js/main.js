@@ -5,6 +5,8 @@
      2. HERO ........... animasi mengetik pada judul "Full-Stack Web Developer"
      3. BAHASA ......... tombol ID / EN di navbar yang mengendalikan mesin
                          penerjemah GTranslate (posisi baca Anda tetap dijaga)
+     4. ZOOM GAMBAR .... klik screenshot di kartu project untuk membukanya besar
+                         (overlay .img-zoom, gaya tampilannya ada di CSS bagian 6)
    Semua kode dijalankan setelah HTML siap (event DOMContentLoaded).
    Jika ada error di console, lihat nomor bagian pada komentar di bawah.
    ========================================================================= */
@@ -105,6 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
                           cara paling pasti supaya semua teks kembali aslinya.
      Teks halaman diterjemahkan otomatis oleh GTranslate, jadi teks baru
      (mis. kartu project tambahan) TIDAK perlu didaftarkan di bagian ini.
+     PENTING: tulis teks baru dalam Bahasa Indonesia (bahasa asli halaman).
+     Teks yang sudah berbahasa Inggris akan "diterjemahkan" ulang oleh mesin
+     Google dengan hasil rancu. Contoh nyata pada label tombol kartu project:
+       "Repository" -> "Repositories" dan "Document" -> "Documents" (jadi jamak),
+     sehingga label itu tidak pernah berubah/terasa "tidak ikut diterjemahkan".
+     Karena itu label tombol ditulis dalam Bahasa Indonesia di HTML
+     ("Demo Langsung", "Repositori", "Pratinjau", "Dokumentasi"), supaya versi
+     EN-nya benar: "Live Demo", "Repository", "Preview", "Documentation".
      ===================================================================== */
   const PAGE_LANGUAGE = 'id';              // Bahasa asli halaman
   const LANGUAGE_CODES = ['id', 'en'];     // Bahasa yang bisa dipilih pengunjung
@@ -333,4 +343,83 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   syncLanguageButtons();
+
+  /* =====================================================================
+     4. PRATINJAU GAMBAR PROJECT (CSS: 6. SKILLS & PROJECTS GRID)
+     Screenshot di kartu project berisi tulisan kecil, jadi gambarnya bisa
+     diklik untuk dibuka dalam ukuran besar (overlay .img-zoom). Overlay-nya
+     dibuat otomatis dari sini, sehingga HTML kartu project tidak perlu diubah
+     walau jumlah project bertambah. Menutupnya: klik tombol silang, klik
+     latar gelap, atau tekan tombol Esc.
+     ===================================================================== */
+  const zoomableImages = document.querySelectorAll('.project-img-wrapper img');
+
+  if (zoomableImages.length > 0) {
+    // Overlay besar: dibuat sekali, lalu dipakai ulang oleh semua gambar.
+    const zoomBox = document.createElement('div');
+    zoomBox.className = 'img-zoom';
+    zoomBox.setAttribute('role', 'dialog');
+    zoomBox.setAttribute('aria-modal', 'true');
+    zoomBox.setAttribute('aria-label', 'Pratinjau gambar project');
+
+    const zoomImage = document.createElement('img');
+    zoomImage.alt = '';
+
+    const zoomCloseButton = document.createElement('button');
+    zoomCloseButton.type = 'button';
+    zoomCloseButton.className = 'img-zoom-close';
+    zoomCloseButton.setAttribute('aria-label', 'Tutup pratinjau gambar');
+    zoomCloseButton.textContent = '\u00d7'; // tanda silang (×)
+
+    zoomBox.appendChild(zoomImage);
+    zoomBox.appendChild(zoomCloseButton);
+    document.body.appendChild(zoomBox);
+
+    // Elemen yang fokus sebelum pratinjau dibuka (dikembalikan lagi saat ditutup).
+    let lastFocusedElement = null;
+
+    const closeZoom = () => {
+      zoomBox.classList.remove('is-open');
+      document.body.classList.remove('img-zoom-open');
+      zoomImage.removeAttribute('src');
+      if (lastFocusedElement) lastFocusedElement.focus();
+    };
+
+    const openZoom = (image) => {
+      // Gambar dibuka dari file aslinya (ukuran penuh), bukan versi kecil di kartu.
+      zoomImage.src = image.currentSrc || image.src;
+      zoomImage.alt = image.alt || 'Gambar project';
+      lastFocusedElement = document.activeElement;
+      zoomBox.classList.add('is-open');
+      document.body.classList.add('img-zoom-open');
+      zoomCloseButton.focus();
+    };
+
+    zoomableImages.forEach((image) => {
+      // Supaya gambar juga bisa dibuka pengguna keyboard (Tab lalu Enter / Spasi).
+      image.setAttribute('tabindex', '0');
+      image.setAttribute('role', 'button');
+      image.setAttribute('aria-label', `Perbesar gambar: ${image.alt || 'project'}`);
+
+      image.addEventListener('click', () => openZoom(image));
+
+      image.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        openZoom(image);
+      });
+    });
+
+    // Menutup pratinjau dari beberapa cara yang wajar.
+    zoomCloseButton.addEventListener('click', closeZoom);
+
+    zoomBox.addEventListener('click', (event) => {
+      // Klik pada latar gelap (bukan pada gambarnya) juga menutup pratinjau.
+      if (event.target === zoomBox) closeZoom();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && zoomBox.classList.contains('is-open')) closeZoom();
+    });
+  }
 });
